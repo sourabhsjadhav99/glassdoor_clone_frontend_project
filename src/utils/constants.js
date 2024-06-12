@@ -2,21 +2,30 @@ let navLinks = [
     {
         id: 1,
         name: "Community",
-        path: "/community"
+        path: "/community",
+        title: "Your work people are here",
+        statement: "Connect anonymously with professionals about work, pay, life and more."
+
     },
     {
         id: 2,
         name: "Jobs",
-        path: "/jobs"
+        path: "/jobs",
+        title: "Find the right job",
+        statement: "Millions of jobs. Search by what matters to you and find the one that's right for you"
     }, {
         id: 3,
         name: "Companies",
-        path: "/companies"
+        path: "/companies",
+        title: "Read millions of reviews",
+        statement: "Connect anonymously with professionals about work, pay, life and more."
     },
     {
         id: 4,
         name: "Salaries",
-        path: "/salaries"
+        path: "/salaries",
+        title: "Compare salaries",
+        statement: "Are you paid fairly? Get a free, personalised salary estimate and compare with millions of salaries."
     }
 ]
 
@@ -37,7 +46,7 @@ let footerCountries = [
     'Italy',
     'Spain',
     "India"
-  ];
+];
 export {
     navLinks,
     footerCountries
