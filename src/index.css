@@ -18,3 +18,52 @@ body{
     flex: 1;
     overflow-y: auto;
   }
+
+
+
+  .stepper {
+    margin-bottom: 20px;
+  }
+  
+  .stepper ul {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    list-style: none;
+  }
+  
+  .step {
+    text-align: center;
+    width: 100%;
+  }
+  
+  .step-number {
+    background-color: #ddd;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    font-weight: bold;
+  }
+  
+  .step-label {
+    margin-top: 5px;
+  }
+  
+  .step.active .step-number {
+    background-color: #4cd681;
+    color: #fff;
+  }
+  
+  .step.completed .step-number {
+    background-color: #4cd681;
+    color: #fff;
+  }
+  
+.open {
+    display: flex;
+    transform: translateX(0);
+  }

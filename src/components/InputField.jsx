@@ -12,8 +12,8 @@ const InputField = ({
   className,
 }) => {
   return (
-    <div className="flex flex-col gap-1">
-      <div>{label && <label htmlFor={name} className="text-sm">{label}</label>}</div>
+    <div className="flex flex-col  gap-1">
+      <div className="">{label && <label htmlFor={name} className="text-sm float-left ">{label}</label>}</div>
       <div>
         <input
           type={type}

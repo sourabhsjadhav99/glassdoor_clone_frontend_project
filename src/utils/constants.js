@@ -4,7 +4,8 @@ let navLinks = [
         name: "Community",
         path: "/community",
         title: "Your work people are here",
-        statement: "Connect anonymously with professionals about work, pay, life and more."
+        statement: "Connect anonymously with professionals about work, pay, life and more.",
+        image:"community.png"
 
     },
     {
@@ -12,20 +13,23 @@ let navLinks = [
         name: "Jobs",
         path: "/jobs",
         title: "Find the right job",
-        statement: "Millions of jobs. Search by what matters to you and find the one that's right for you"
+        statement: "Millions of jobs. Search by what matters to you and find the one that's right for you",
+        image:"jobs.png"
     }, {
         id: 3,
         name: "Companies",
         path: "/companies",
         title: "Read millions of reviews",
-        statement: "Connect anonymously with professionals about work, pay, life and more."
+        statement: "Connect anonymously with professionals about work, pay, life and more.",
+        image:"companies.png"
     },
     {
         id: 4,
         name: "Salaries",
         path: "/salaries",
         title: "Compare salaries",
-        statement: "Are you paid fairly? Get a free, personalised salary estimate and compare with millions of salaries."
+        statement: "Are you paid fairly? Get a free, personalised salary estimate and compare with millions of salaries.",
+        image:"salaries.png"
     }
 ]
 

@@ -3,8 +3,10 @@ import { IoLogoApple } from "react-icons/io5";
 import { TfiAndroid } from "react-icons/tfi";
 import { SiGlassdoor } from "react-icons/si";
 import { FaFacebookF } from "react-icons/fa";
+import logo from "../../assets/Glassdoor_logo.svg";
 import { FaXTwitter, FaYoutube, FaInstagram, FaTiktok } from "react-icons/fa6";
 import { footerCountries } from "../../utils/constants";
+import Img from "../Img";
 function Footer() {
   const [selectedCountry, setSelectedCountry] = useState("India");
 
@@ -16,70 +18,11 @@ function Footer() {
     <footer className="flex flex-col justify-center items-center bg-white">
       <div className="w-full flex justify-center border-2">
         <div className="w-full md:w-[85%] xl:w-[70%] flex flex-col px-2 py-5 gap-10 ">
-          {/* <div className="w-full flex flex-col md:flex-row md:justify-center ">
-            <div className="w-[100%] md:w-[20%] ">Lorem ipsum dolor sit amet.</div>
-            <div className="w-[100%] md:w-[80%] flex flex-wrap justify-center">
-              <div className="w-[50%] md:w-[25%]">
-                <p className="font-bold leading-9"> Glassdoor</p>
-                <p>About / Press</p>
-                <p>Blog</p>
-                <p>Grievance Officer</p> <p>India</p>
-              </div>
-              <div className="w-[50%] md:w-[25%]">
-                <p className="font-bold leading-9">Employers</p>
-                <p>Get a FREE employers</p>
-                <p>Account</p>
-                <p>Employer Center</p>
-              </div>
-              <div className="w-[50%] md:w-[25%]">
-                <p className="font-bold leading-9">Information</p>
-                <p>Help/Contact Us</p>
-                <p>Guide Lines</p>
-                <p>Terms of Use</p>
-                <p>Privacy & Ad Choices</p>
-                <p>Don't Share My Info.</p>
-                <p>Cookie Consent Tool</p>
-              </div>
-              <div className="w-[50%] md:w-[25%]">
-                <p className="font-bold leading-9">Work with Us</p>
-                <p>Adevertisers</p>
-                <p>Careers</p>
-              </div>
-            </div>
-          </div> */}
-          <div className="w-full flex flex-col md:flex-row md:justify-center ">
+          <div className="w-full flex flex-col md:flex-row md:justify-center gap-5">
             <div className="w-full md:w-1/5 text-center md:text-left mb-4 md:mb-0">
-              Lorem ipsum dolor sit amet.
+              <Img src={logo} className="h-[50px]" />
             </div>
-            {/* <div className="w-full md:w-4/5 flex flex-wrap justify-center">
-              <div className="w-1/2 md:w-1/4 mb-4  md:text-left">
-                <p className="font-bold leading-9">Glassdoor</p>
-                <p>About / Press</p>
-                <p>Blog</p>
-                <p>Grievance Officer</p>
-                <p>India</p>
-              </div>
-              <div className="w-1/2 md:w-1/4 mb-4  md:text-left">
-                <p className="font-bold leading-9">Employers</p>
-                <p>Get a FREE employer's</p>
-                <p>Account</p>
-                <p>Employer Center</p>
-              </div>
-              <div className="w-1/2 md:w-1/4 mb-4  md:text-left">
-                <p className="font-bold leading-9">Information</p>
-                <p>Help/Contact Us</p>
-                <p>Guidelines</p>
-                <p>Terms of Use</p>
-                <p>Privacy & Ad Choices</p>
-                <p>Don't Share My Info</p>
-                <p>Cookie Consent Tool</p>
-              </div>
-              <div className="w-1/2 md:w-1/4 mb-4  md:text-left">
-                <p className="font-bold leading-9">Work with Us</p>
-                <p>Advertisers</p>
-                <p><a href="#">Careers</a></p>
-              </div>
-            </div> */}
+
             <div className="w-full md:w-4/5 flex flex-wrap justify-center">
               <div className="w-1/2 md:w-1/4 mb-4 md:mb-0 md:text-left">
                 <p className="font-bold leading-9">Glassdoor</p>

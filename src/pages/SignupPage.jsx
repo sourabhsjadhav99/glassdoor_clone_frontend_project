@@ -1,34 +1,50 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import SignUpForm from "../components/forms/SignUpForm";
 import companyImg from "../assets/companies.webp";
-import SegregatedLogin from "../components/SegregatedLogin";
+import MainLogin from "../components/MainLogin";
 import { TiMessages } from "react-icons/ti";
 import { PiNotepadBold, PiBuildingOffice, PiMoneyBold } from "react-icons/pi";
 import SignUpHeader from "../components/header/SignUpHeader";
+import signMob from "../assets/sign_mob.png";
+import Img from "../components/Img";
+import signupimg1 from "../assets/sign1.png";
+import signupimg2 from "../assets/sign2.png";
+import { useFirebase } from "../FirebaseProvider";
+import { useNavigate } from "react-router-dom";
 
 function SignupPage() {
+  let { isLoggedIn } = useFirebase();
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate(-1);
+    }
+  }, [isLoggedIn, navigate]);
+
   return (
     <>
-      <SignUpHeader />
-      <div className="flex flex-col justify-center  bg-white gap-5 ">
-        <div className="md:hidden block w-full">
-          <img src={companyImg} alt="" className="w-full" />
+      <div
+        className={` flex flex-col justify-center items-center py-5 bg-white gap-5`}
+      >
+        <div className="lg:hidden block w-full text-center">
+          <Img src={signMob} alt="" className="w-[100%] " />
         </div>
         <div className="w-full text-center">
           <h1 className="text-2xl md:text-5xl font-semibold text-green-600">
             Your work people are here
           </h1>
         </div>
-        <div className="flex w-full justify-center lg:justify-between items-center">
-          <div className="hidden lg:block w-1/3">
-            <img src={companyImg} alt="" className="w-full" />
+        <div className="flex w-[100%] lg:w-[80%] justify-center lg:justify-between items-center ">
+          <div className="hidden lg:block w-1/3  text-center">
+            <Img src={signupimg1} alt="" className={`w-[100%] `} />
           </div>
-          <div className="w-full md:w-[60%] lg:w-[40%] xl:w-1/4 flex justify-center border text-center">
-            <SegregatedLogin />
+          <div className="w-full md:w-[60%] lg:w-[40%] xl:w-1/3 flex justify-center text-center">
+            <MainLogin />
           </div>
-          <div className="hidden lg:block w-1/3">
-            <img src={companyImg} alt="" className="" />
+          <div className="hidden lg:block w-1/3 text-center  ">
+            <Img src={signupimg2} alt="" className={`w-[100%] `} />
           </div>
         </div>
         <div className="bg-gray-100 w-full flex justify-center p-2 md:p-5">
