@@ -9,6 +9,9 @@ import SalariesPage from "./pages/SalariesPage";
 import JobsPage from "./pages/JobsPage";
 import PersonalDataPage from "./pages/PersonalDataPage";
 import GetPersonalInfo from "./pages/GetPersonalInfo";
+import SavedJobs from "./pages/SavedJobs";
+import AppliedJobsPage from "./pages/AppliedJobsPage";
+import UpdatePersonalInfoForm from "./components/forms/UpdatePersonalInfoForm";
 
 function App() {
   return (
@@ -18,9 +21,12 @@ function App() {
         <Route  path="/" element={<CommunityPage/>} />
         <Route path="/companies" element={<CompaniesPage/>}/>
         <Route path="/personalInfo" element={<GetPersonalInfo/>}/>
+        <Route path="/savedjobs" element={<SavedJobs/>}/>
+        <Route path="/appliedjobs" element={<AppliedJobsPage/>}/>
         <Route path="/salaries" element={<SalariesPage/>}/>
         <Route path="/signup" element={<SignupPage/>}/>
         <Route path="/personal" element={<PersonalDataPage/>}/>
+        <Route path="/editpersonal" element={<UpdatePersonalInfoForm/>}/>
         <Route path="/jobs" element={<JobsPage/>}/>
       </Routes>
       <Footer/>

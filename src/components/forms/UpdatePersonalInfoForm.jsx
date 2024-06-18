@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
-import { personalInfoValidationSchema } from "../../utils/formValidation"; // Make sure this path is correct
-import InputField from "../../components/InputField";
-import Button from "../../components/Button";
+import { personalInfoValidationSchema } from "../../utils/formValidation";
+import InputField from "../InputField";
+import Button from "../Button";
 import { useFirebase } from "../../FirebaseProvider";
 import { useNavigate } from "react-router-dom";
 
-function PersonalInfoForm() {
-  const {uploadUserInfo} = useFirebase();
+function UpdatePersonalInfoForm() {
+  const { userData, updateUserInfo } = useFirebase();
   let navigate = useNavigate();
 
   const formik = useFormik({
@@ -16,20 +16,27 @@ function PersonalInfoForm() {
       lastname: "",
       mobile: "",
       role: "",
-      pdfFile: null
+      pdfFile: null,
     },
     validationSchema: personalInfoValidationSchema,
     onSubmit: async (values, { resetForm }) => {
-      const { firstname, lastname, mobile, role, pdfFile } = values;
-      await uploadUserInfo(firstname, lastname, mobile, role, pdfFile)
+      const { firstname, lastname, mobile, role } = values;
+      await updateUserInfo({ firstname, lastname, mobile, role }, userData.userId);
       navigate("/personalinfo");
       resetForm();
     },
   });
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    formik.setFieldValue("pdfFile", file);
-  };
+
+  useEffect(() => {
+    if (userData) {
+      formik.setValues({
+        firstname: userData.firstname,
+        lastname: userData.lastname,
+        mobile: userData.mobile,
+        role: userData.role,
+      });
+    }
+  }, [userData]);
 
   return (
     <div className="">
@@ -78,26 +85,15 @@ function PersonalInfoForm() {
           touched={formik.touched.role}
           className="w-full border-blue-500 border"
         />
-        <input
-          type="file"
-          name="pdfFile"
-          onChange={handleFileChange}
-          accept="application/pdf"
-          className="w-full border-blue-500 border"
-        />
-        {formik.errors.pdfFile && formik.touched.pdfFile && (
-          <div className="text-red-500">{formik.errors.pdfFile}</div>
-        )}
         <Button
           type="submit"
           className="w-full bg-white text-black border border-black hover:bg-green-500 hover:text-white hover:border-0"
         >
-          Upload
+          Update
         </Button>
       </form>
     </div>
   );
 }
 
-export default PersonalInfoForm;
-
+export default UpdatePersonalInfoForm;

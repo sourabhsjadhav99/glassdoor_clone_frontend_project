@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { navLinks } from "../../utils/constants";
 import { IoSearchOutline } from "react-icons/io5";
 import { FiBell } from "react-icons/fi";
@@ -21,7 +21,9 @@ function Header() {
   const [location, setLocation] = useState("");
   const [tooltipId, setTooltipId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  let { logOut, isLoggedIn }= useFirebase();
+  let { logOut, isLoggedIn, userEmail } = useFirebase();
+  console.log(userEmail);
+  let navigate = useNavigate();
 
   // Function to handle mouse enter and leave events
   const handleMouseEnter = (id) => {
@@ -272,10 +274,8 @@ function Header() {
         </div>
 
         <div
-          className={`z-50 flex-col gap-2 top-[60px] fixed  right-0 w-[200px]  h-[250px] border bg-white border-l-2 z-100 hidden transition-transform duration-500 py-5 rounded-b-lg ${
-            isOpenUser ? "open " : ""
-          }`}
-          ref={userRef}
+          className={`z-50 flex-col gap-1 items-center  top-[60px] fixed  right-0 w-[250px]  h-[300px] border bg-white border-l-2 z-100 hidden transition-transform duration-500 py-5 rounded-b-lg ${
+            isOpenUser ? "open " : ""} ${!isLoggedIn ? "h-[150px] gap-5" : ""}`} ref={userRef}
         >
           <button
             className="w-[100%] text-xl flex justify-end px-5"
@@ -285,39 +285,71 @@ function Header() {
               <IoClose />
             </span>
           </button>
-          <div className="p-4 w-full flex flex-col items-start gap-3">
-            <button className="p-2 w-full text-left hover:bg-gray-100">
-              Saved Jobs
-            </button>
-            <button className="p-2 w-full text-left hover:bg-gray-100">
-              Applied Jobs
-            </button>
-
-            {isLoggedIn ? (
+          {isLoggedIn && (
+            <div className="w-full">
+              <div className="w-[100%] text-xl flex items-center gap-1 px-5">
+                <FaRegCircleUser />
+                <small>{userEmail}</small>
+              </div>
+              <div className="p-4 w-full flex flex-col items-start gap-1">
               <button
-                className="w-[140px] font-semibold text-white bg-black hover:bg-red-600  rounded p-2 flex gap-2 justify-center items-center "
-                onClick={logOut}
-              >
-                <span>Sign Out</span>
-                <span>
-                  <PiSignInBold />
-                </span>
-              </button>
-            ) : (
-              <button
-                className="w-[140px] font-semibold text-white bg-black hover:bg-[#4cd681]  rounded p-2 flex gap-2 justify-center items-center "
-                onClick={() => {
-                  handleOpenModal();
-                  handleMouseLeave();
-                }}
-              >
-                <span>
-                  <PiSignInBold />
-                </span>
-                <span>Sign In</span>
-              </button>
-            )}
-          </div>
+                  className="p-2 w-full text-left hover:bg-gray-100"
+                  onClick={() => {
+                    navigate("/personalinfo");
+                    toggleUser();
+                  }}
+                >
+                  User Details
+                </button>
+                <button
+                  className="p-2 w-full text-left hover:bg-gray-100"
+                  onClick={() => {
+                    navigate("/savedjobs");
+                    toggleUser();
+                  }}
+                >
+                  Saved Jobs
+                </button>
+                <button
+                  className="p-2 w-full text-left hover:bg-gray-100"
+                  onClick={() => {
+                    navigate("/appliedjobs");
+                    toggleUser();
+                  }}
+                >
+                  Applied Jobs
+                </button>
+              </div>
+            </div>
+          )}
+          {isLoggedIn ? (
+            <button
+              className="w-[140px] font-semibold text-white bg-black hover:bg-red-600  rounded p-2 flex gap-2 justify-center items-center "
+              onClick={() => {
+                logOut;
+                toggleUser();
+              }}
+            >
+              <span>Sign Out</span>
+              <span>
+                <PiSignInBold />
+              </span>
+            </button>
+          ) : (
+            <button
+              className="w-[140px] font-semibold text-white bg-black hover:bg-[#4cd681]  rounded p-2 flex gap-2 justify-center items-center "
+              onClick={() => {
+                handleOpenModal();
+                handleMouseLeave();
+                toggleUser();
+              }}
+            >
+              <span>
+                <PiSignInBold />
+              </span>
+              <span>Sign In</span>
+            </button>
+          )}
         </div>
       </nav>
       <PopupSignUpForm isOpen={isModalOpen} onClose={handleCloseModal} />

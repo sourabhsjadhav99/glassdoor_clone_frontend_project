@@ -1,38 +1,44 @@
 import React, { useEffect, useState } from "react";
 import { useFirebase } from "../FirebaseProvider";
-
+import { useNavigate } from "react-router-dom";
+import { MdEdit } from "react-icons/md";
 function GetPersonalInfo() {
-  let [data, setData] = useState();
   let [url, setUrl] = useState(null);
-  let { getUserInfo, getPdf } = useFirebase();
+  let {  getPdf, userData } = useFirebase();
+  let navigate = useNavigate();
 
+console.log(userData)
   useEffect(() => {
-    getUserInfo().then((docs) => {
-      console.log(docs.docs[0].data());
-      setData(docs.docs[0].data());
-    });
-  }, []);
-
-  useEffect(() => {
-    if (data?.pdfURL) {
-      getPdf(data.pdfURL).then((url) => {
-        setUrl(url);
-      }).catch((error) => {
-        console.error("Error fetching PDF URL:", error);
-      });
+    if (userData?.pdfURL) {
+      getPdf(userData.pdfURL)
+        .then((url) => {
+          setUrl(url);
+        })
+        .catch((error) => {
+          console.error("Error fetching PDF URL:", error);
+        });
     }
-  }, [data?.pdfURL]);
+  }, [userData?.pdfURL]);
 
-  console.log(data);
+
   return (
     <div>
       hiii
-      <p>{data?.firstname}</p>
-      <p>{data?.lastname}</p>
-      <p>{data?.mobile}</p>
-      <p>{data?.role}</p>
-      <p>{data?.userEmail}</p>
-      {url ? <a href={url} target="_blank" rel="noopener noreferrer">Download PDF</a> : 'Loading...'}
+      <button onClick={()=>navigate("/editpersonal")}><MdEdit /></button>
+      <p>{userData?.userId}</p>
+      <p>{userData?.firstname}</p>
+      <p>{userData?.lastname}</p>
+      <p>{userData?.mobile}</p>
+      <p>{userData?.role}</p>
+      <p>{userData?.userEmail}</p>
+      {url ? (
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          Download PDF
+        </a>
+      ) : (
+        "Loading..."
+      )}
+      <div><button onClick={()=>navigate("/savedjobs")}>Saved jobs</button></div>
     </div>
   );
 }

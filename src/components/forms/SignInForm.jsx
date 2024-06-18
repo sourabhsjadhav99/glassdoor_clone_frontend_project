@@ -4,9 +4,11 @@ import { signInvalidationSchema } from '../../utils/formValidation';
 import InputField from '../../components/InputField';
 import Button from '../../components/Button';
 import { useFirebase } from '../../FirebaseProvider';
+import { useNavigate } from 'react-router-dom';
 
 function SignUpForm() {
   const { signInUser } = useFirebase();
+  let navigate =useNavigate()
 
   const formik = useFormik({
     initialValues: {
@@ -18,6 +20,7 @@ function SignUpForm() {
       const { email, password } = values;
       await signInUser(email, password);
       resetForm(); // Reset the form after successful submission
+      navigate("/jobs");
     },
   });
 
