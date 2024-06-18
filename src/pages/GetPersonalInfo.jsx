@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { MdEdit } from "react-icons/md";
 function GetPersonalInfo() {
   let [url, setUrl] = useState(null);
-  let {  getPdf, userData } = useFirebase();
+  let { getPdf, userData } = useFirebase();
   let navigate = useNavigate();
 
-console.log(userData)
+  console.log(userData);
   useEffect(() => {
     if (userData?.pdfURL) {
       getPdf(userData.pdfURL)
@@ -20,12 +20,18 @@ console.log(userData)
     }
   }, [userData?.pdfURL]);
 
-
   return (
     <div>
-      hiii
-      <button onClick={()=>navigate("/editpersonal")}><MdEdit /></button>
-      <p>{userData?.userId}</p>
+      <button
+        className="flex items-center gap-2 border rounded"
+        onClick={() => navigate("/create-edit-profile")}
+      >
+        {userData ? <small>Edit Profile</small> : <small>Create Profile</small>}
+        <span>
+          <MdEdit />
+        </span>
+      </button>
+
       <p>{userData?.firstname}</p>
       <p>{userData?.lastname}</p>
       <p>{userData?.mobile}</p>
@@ -38,7 +44,9 @@ console.log(userData)
       ) : (
         "Loading..."
       )}
-      <div><button onClick={()=>navigate("/savedjobs")}>Saved jobs</button></div>
+      <div>
+        <button onClick={() => navigate("/savedjobs")}>Saved jobs</button>
+      </div>
     </div>
   );
 }

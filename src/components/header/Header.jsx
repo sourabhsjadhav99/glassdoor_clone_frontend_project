@@ -274,8 +274,10 @@ function Header() {
         </div>
 
         <div
-          className={`z-50 flex-col gap-1 items-center  top-[60px] fixed  right-0 w-[250px]  h-[300px] border bg-white border-l-2 z-100 hidden transition-transform duration-500 py-5 rounded-b-lg ${
-            isOpenUser ? "open " : ""} ${!isLoggedIn ? "h-[150px] gap-5" : ""}`} ref={userRef}
+          className={`z-50 flex-col  items-center  top-[60px] fixed  right-0 w-[250px] border-gray-300  bg-white border-l-2 border-b-2 z-100 hidden transition-transform duration-500 py-5 rounded-b-md ${
+            isOpenUser ? "open " : ""
+          } ${!isLoggedIn ? "h-[150px] gap-5" : "h-[300px] gap-1"}`}
+          ref={userRef}
         >
           <button
             className="w-[100%] text-xl flex justify-end px-5"
@@ -287,15 +289,15 @@ function Header() {
           </button>
           {isLoggedIn && (
             <div className="w-full">
-              <div className="w-[100%] text-xl flex items-center gap-1 px-5">
+              <div className="w-[100%] text-xl flex items-center gap-2 px-5">
                 <FaRegCircleUser />
-                <small>{userEmail}</small>
+                <small className="truncate whitespace-nowrap overflow-hidden font-semibold">{userEmail}</small>
               </div>
               <div className="p-4 w-full flex flex-col items-start gap-1">
-              <button
+                <button
                   className="p-2 w-full text-left hover:bg-gray-100"
                   onClick={() => {
-                    navigate("/personalinfo");
+                    navigate("/profile");
                     toggleUser();
                   }}
                 >
@@ -326,8 +328,8 @@ function Header() {
             <button
               className="w-[140px] font-semibold text-white bg-black hover:bg-red-600  rounded p-2 flex gap-2 justify-center items-center "
               onClick={() => {
-                logOut;
-                toggleUser();
+                logOut();
+                toggleUser()
               }}
             >
               <span>Sign Out</span>

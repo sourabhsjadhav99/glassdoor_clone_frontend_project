@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
-
-import SignUpForm from "../components/forms/SignUpForm";
-import companyImg from "../assets/companies.webp";
 import MainLogin from "../components/MainLogin";
 import { TiMessages } from "react-icons/ti";
 import { PiNotepadBold, PiBuildingOffice, PiMoneyBold } from "react-icons/pi";
-import SignUpHeader from "../components/header/SignUpHeader";
+
 import signMob from "../assets/sign_mob.png";
 import Img from "../components/Img";
 import signupimg1 from "../assets/sign1.png";

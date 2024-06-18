@@ -244,7 +244,7 @@ function SignUpForm() {
           type="submit"
           className="w-full bg-white text-black border border-black hover:bg-green-500 hover:text-white hover:border-0"
         >
-          Continue With Email
+          Signup With Email
         </Button>
       </form>
     </div>

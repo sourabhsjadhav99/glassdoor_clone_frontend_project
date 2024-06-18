@@ -1,12 +1,12 @@
 import React from "react";
 import { useFormik } from "formik";
 import { personalInfoValidationSchema } from "../../utils/formValidation"; // Make sure this path is correct
-import InputField from "../../components/InputField";
-import Button from "../../components/Button";
+import InputField from "../InputField";
+import Button from "../Button";
 import { useFirebase } from "../../FirebaseProvider";
 import { useNavigate } from "react-router-dom";
 
-function PersonalInfoForm() {
+function CreateProfileForm() {
   const {uploadUserInfo} = useFirebase();
   let navigate = useNavigate();
 
@@ -22,7 +22,7 @@ function PersonalInfoForm() {
     onSubmit: async (values, { resetForm }) => {
       const { firstname, lastname, mobile, role, pdfFile } = values;
       await uploadUserInfo(firstname, lastname, mobile, role, pdfFile)
-      navigate("/personalinfo");
+      navigate("/profile");
       resetForm();
     },
   });
@@ -99,5 +99,5 @@ function PersonalInfoForm() {
   );
 }
 
-export default PersonalInfoForm;
+export default CreateProfileForm;
 

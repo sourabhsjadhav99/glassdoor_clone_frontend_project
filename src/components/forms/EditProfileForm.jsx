@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { useFormik } from "formik";
-import { personalInfoValidationSchema } from "../../utils/formValidation";
+import { updatePersonalInfoValidationSchema } from "../../utils/formValidation"; // Make sure this path is correct
 import InputField from "../InputField";
 import Button from "../Button";
 import { useFirebase } from "../../FirebaseProvider";
 import { useNavigate } from "react-router-dom";
 
-function UpdatePersonalInfoForm() {
-  const { userData, updateUserInfo } = useFirebase();
+function EditProfileForm() {
+  const { updateUserInfo, userData } = useFirebase();
   let navigate = useNavigate();
 
   const formik = useFormik({
@@ -16,13 +16,13 @@ function UpdatePersonalInfoForm() {
       lastname: "",
       mobile: "",
       role: "",
-      pdfFile: null,
+      // pdfFile: null,
     },
-    validationSchema: personalInfoValidationSchema,
+    validationSchema: updatePersonalInfoValidationSchema,
     onSubmit: async (values, { resetForm }) => {
       const { firstname, lastname, mobile, role } = values;
-      await updateUserInfo({ firstname, lastname, mobile, role }, userData.userId);
-      navigate("/personalinfo");
+      console.log(values);
+      updateUserInfo({ firstname, lastname, mobile, role });
       resetForm();
     },
   });
@@ -30,10 +30,10 @@ function UpdatePersonalInfoForm() {
   useEffect(() => {
     if (userData) {
       formik.setValues({
-        firstname: userData.firstname,
-        lastname: userData.lastname,
-        mobile: userData.mobile,
-        role: userData.role,
+        firstname: userData.firstname || "",
+        lastname: userData.lastname || "",
+        mobile: userData.mobile || "",
+        role: userData.role || "",
       });
     }
   }, [userData]);
@@ -89,11 +89,11 @@ function UpdatePersonalInfoForm() {
           type="submit"
           className="w-full bg-white text-black border border-black hover:bg-green-500 hover:text-white hover:border-0"
         >
-          Update
+          Upload
         </Button>
       </form>
     </div>
   );
 }
 
-export default UpdatePersonalInfoForm;
+export default EditProfileForm;

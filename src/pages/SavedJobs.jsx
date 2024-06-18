@@ -3,27 +3,36 @@ import { useFirebase } from "../FirebaseProvider";
 import { useNavigate } from "react-router-dom";
 
 function SavedJobs() {
-  let [data, setData] = useState();
-  let { getUserInfo } = useFirebase();
-  let navigate = useNavigate();
+  const [data, setData] = useState([]);
+  const { updateSavedJobs, userData } = useFirebase();
+
+
+  // Destructure userData safely by providing default values
+  const { savedJobs = [] } = userData || {};
+
   useEffect(() => {
-    getUserInfo().then((docs) => {
-      console.log(docs.docs[0].data().savedJobs);
-      setData(docs.docs[0].data().savedJobs);
-    });
-  }, []);
+
+    setData(userData?.savedJobs)
+  }, [userData]);
+
+  let handleRemoveJob = async (jobIdToDelete) => {
+    const updatedJobs = savedJobs.filter((job) => job.id !== jobIdToDelete);
+    await updateSavedJobs({ savedJobs: updatedJobs });
+
+  };
 
   return (
     <div>
       <h1>Saved jobs</h1>
-      {data?.map((job) => {
-        return <div key={job.id}>
-            <p>{job?.name}</p>
-
+      {data?.map((job) => (
+        <div key={job.id} className="flex gap-3">
+          <p>{job?.role}</p>
+          <button onClick={() => handleRemoveJob(job.id)}>delete</button>
         </div>
-      })}
+      ))}
     </div>
   );
 }
 
 export default SavedJobs;
+
