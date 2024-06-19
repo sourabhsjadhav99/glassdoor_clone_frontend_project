@@ -8,7 +8,7 @@ const signInvalidationSchema = Yup.object().shape({
     .required("Email is required"),
   password: Yup.string()
     .min(8, "Password must be at least 8 characters")
-    .max(20, "Password must be less than 20 characters")
+    .max(30, "Password must be less than 30 characters")
     .matches(
       /^(?=.*[!@#$%^&*])/, // Ensure at least one special character
       "Password must contain at least one special character"

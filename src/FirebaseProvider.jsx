@@ -42,7 +42,6 @@ export const FirebaseProvider = ({ children }) => {
         setUserId(user.uid);
       } else {
         setUser(null);
-        setUserData(null);
         setUserEmail(null);
         setUserId(null);
       }
@@ -69,7 +68,7 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
-  console.log(user);
+
   const signUpUser = async (email, password) => {
     try {
       const userCredentials = await createUserWithEmailAndPassword(
