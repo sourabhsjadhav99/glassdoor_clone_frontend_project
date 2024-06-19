@@ -3,6 +3,7 @@ import { IoClose } from 'react-icons/io5';
 import MainLogin from '../MainLogin';
 
 const PopupSignUpForm = ({ isOpen, onClose }) => {
+
   if (!isOpen) return null;
 
   return (
@@ -18,7 +19,7 @@ const PopupSignUpForm = ({ isOpen, onClose }) => {
           </button>
         </div>
         <h2 className="text-xl font-semibold">Create an account or sign in</h2>
-        <MainLogin />
+        <MainLogin onClose={onClose}/>
       </div>
     </div>
   );

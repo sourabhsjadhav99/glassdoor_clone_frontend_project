@@ -10,7 +10,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import { auth, db, storage } from "./firebase";
 import {
-  deleteObject,
   getDownloadURL,
   ref,
   uploadBytes,
@@ -18,15 +17,12 @@ import {
 import {
   addDoc,
   collection,
-  doc,
-  getDoc,
   getDocs,
   query,
-  setDoc,
   updateDoc,
   where,
 } from "firebase/firestore";
-import { update } from "firebase/database";
+
 
 const FirebaseContext = createContext(null);
 
@@ -82,7 +78,7 @@ export const FirebaseProvider = ({ children }) => {
         password
       );
       console.log("User created:", userCredentials);
-      alert("User created");
+      alert("User created, you can sign in now");
       navigate("/jobs");
     } catch (error) {
       console.error("Error during sign up:", error);
@@ -99,6 +95,7 @@ export const FirebaseProvider = ({ children }) => {
       );
       console.log("User signed in:", userCredentials);
       alert("User signed in");
+      navigate("/jobs");
     } catch (error) {
       console.error("Error during sign in:", error);
       alert(`Operation failed: ${error.code} ${error.message}`);
