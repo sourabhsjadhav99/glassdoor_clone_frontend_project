@@ -11,6 +11,8 @@ import { PiSignInBold } from "react-icons/pi";
 import PopupSignUpForm from "../forms/PopupSignUpForm";
 import useClickOutside from "../../hooks/useClickOutside";
 import { useFirebase } from "../../FirebaseProvider";
+import { useDispatch } from "react-redux";
+import { fetchJobs } from "../../redux/jobsSlice";
 
 function Header() {
   const [isOpenNavLinks, setIsOpenNavLinks] = useState(false);
@@ -22,7 +24,8 @@ function Header() {
   const [tooltipId, setTooltipId] = useState(null);
   const [isSignPopupOpen, setIsSignPopupOpen] = useState(false);
   let { logOut, isLoggedIn, userEmail } = useFirebase();
-
+  const [query, setQuery] = useState("");
+  const dispatch = useDispatch();
   let navigate = useNavigate();
 
   const handleMouse = (id) => {
@@ -55,15 +58,17 @@ function Header() {
   useClickOutside(userRef, () => setIsOpenUser(false));
   useClickOutside(searchBarRef, () => setShowSearch(false));
 
-  const handleSearch = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // Perform search operation based on company and location
-    console.log("Searching for:", { company, location });
-    // You can add your search logic here
+    if (query.trim()) {
+      dispatch(fetchJobs({ q: query }));
+      setShowSearch(!showSearch)
+      toggleForm()
+    }
   };
   
   return (
-    <div className="relative border-b">
+    <div className="relative border-b border-gray-300">
       <nav className="bg-white w-full h-[60px] flex items-center justify-center relative px-2">
         <div className="w-[100%] md:w-[95%] lg:w-[90%] xl:w-[80%] h-full flex justify-between items-center">
           <div className="min-w-[10%] h-[50px] ">
@@ -131,32 +136,21 @@ function Header() {
             {showSearch ? (
               <form
                 className="gap-1 items-center hidden lg:flex"
-                onSubmit={handleSearch}
+                onSubmit={handleSubmit}
               >
-                <div className="flex w-[60%]  rounded-l-full bg-gray-100 items-center  p-2 gap-2">
+                <div className="flex w-[100%]  rounded-full bg-gray-100 items-center  p-2 gap-2">
                   <span>
                     <IoSearchOutline />
                   </span>
                   <input
                     type="text"
-                    placeholder="Company"
+                    placeholder="Search jobs"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
                     className="outline-none text-md   bg-gray-100 w-full h-full "
-                    value={company}
-                    onChange={(e) => setCompany(e.target.value)}
+                
                   />
-                </div>
-                <div className="w-[40%] flex rounded-r-full bg-gray-100 items-center  p-2 gap-2">
-                  <span>
-                    <IoLocationOutline />
-                  </span>
-                  <input
-                    type="text"
-                    placeholder="Location"
-                    className="outline-none text-md   bg-gray-100 w-full h-full"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                  />
-                </div>
+                </div>         
               </form>
             ) : null}
             <div className="flex justify-center gap-1    items-center">
@@ -233,30 +227,22 @@ function Header() {
           <div className="p-5 w-full">
             <form
               className="gap-3 items-center lg:hidden flex flex-col"
-              onSubmit={handleSearch}
+              onSubmit={handleSubmit}
             >
               <div className="flex w-[100%]  rounded-full bg-gray-100 items-center  p-2 gap-2">
                 <span>
                   <IoSearchOutline />
                 </span>
                 <input
-                  type="text"
-                  placeholder="Company"
+            
                   className="outline-none text-md   bg-gray-100 w-full h-full "
-                  value={company}
-                  onChange={(e) => setCompany(e.target.value)}
-                />
-              </div>
-              <div className="flex w-[100%]  rounded-full bg-gray-100 items-center  p-2 gap-2">
-                <span>
-                  <IoLocationOutline />
-                </span>
-                <input
+             
+           
                   type="text"
-                  placeholder="Location"
-                  className="outline-none text-md   bg-gray-100 w-full h-full"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
+                  placeholder="Search jobs"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+               
                 />
               </div>
             </form>

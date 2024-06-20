@@ -25,8 +25,8 @@ function SavedJobs() {
     <div>
       <h1>Saved jobs</h1>
       {data?.map((job) => (
-        <div key={job.id} className="flex gap-3">
-          <p>{job?.role}</p>
+        <div key={job.job_id} className="flex gap-3">
+          <p>{job?.title}</p>
           <button onClick={() => handleRemoveJob(job.id)}>delete</button>
         </div>
       ))}

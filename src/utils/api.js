@@ -21,29 +21,3 @@ export const fetchDataFromApi = async ({ endpoint, id = '', params = {} }) => {
     }
 };
 
-
-
-// export const fetchDataFromApii = async () => {
-//     const options = {
-//         method: 'GET',
-//         url: 'https://linkedin-data-api.p.rapidapi.com/search-jobs',
-//         params: {
-//             keywords: 'web developer',
-//             locationId: '92000000',
-//             datePosted: 'anyTime',
-//             salary: '400000',
-//             sort: 'mostRelevant'
-//         },
-//         headers: {
-//             'x-rapidapi-key': '21ecdc6a3emshdb76d29a048e46fp173a27jsnf91c30894e92',
-//             'x-rapidapi-host': 'linkedin-data-api.p.rapidapi.com'
-//         }
-//     };
-
-//     try {
-//         const response = await axios.request(options);
-//         console.log(response.data);
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }

@@ -33,6 +33,7 @@ export const FirebaseProvider = ({ children }) => {
   const [userEmail, setUserEmail] = useState(null);
   const [userId, setUserId] = useState(null);
 
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
