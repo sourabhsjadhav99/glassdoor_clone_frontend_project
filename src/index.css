@@ -67,3 +67,26 @@ body{
     display: flex;
     transform: translateX(0);
   }
+  /* src/index.css or your main CSS file */
+  .job-details-container {
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  .scrollbar::-webkit-scrollbar-thumb {
+    background-color:#c0b5b5;
+    border-radius: 6px;
+  }
+  
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color:  #888;
+  }

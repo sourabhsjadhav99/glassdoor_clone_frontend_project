@@ -22,7 +22,7 @@ function CreateProfileForm() {
     onSubmit: async (values, { resetForm }) => {
       const { firstname, lastname, mobile, role, pdfFile } = values;
       await uploadUserInfo(firstname, lastname, mobile, role, pdfFile)
-      navigate("/profile");
+      navigate(-1);
       resetForm();
     },
   });

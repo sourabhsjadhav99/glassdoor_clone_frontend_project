@@ -13,6 +13,8 @@ import useClickOutside from "../../hooks/useClickOutside";
 import { useFirebase } from "../../FirebaseProvider";
 import { useDispatch } from "react-redux";
 import { fetchJobs } from "../../redux/jobsSlice";
+import JobSearch from "../JobSearch";
+import JobSearchForm from "../forms/JobSearchForm";
 
 function Header() {
   const [isOpenNavLinks, setIsOpenNavLinks] = useState(false);
@@ -42,7 +44,6 @@ function Header() {
     setIsOpenNavLinks(!isOpenNavLinks);
   };
 
-
   const toggleForm = () => {
     setIsOpenForm(!isOpenForm);
     setShowSearch(!showSearch);
@@ -55,9 +56,6 @@ function Header() {
   const userRef = useRef(null);
   const searchBarRef = useRef(null);
 
-  useClickOutside(userRef, () => setIsOpenUser(false));
-  useClickOutside(searchBarRef, () => setShowSearch(false));
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (query.trim()) {
@@ -65,8 +63,11 @@ function Header() {
       setShowSearch(!showSearch)
       toggleForm()
     }
-  };
-  
+  }
+
+  useClickOutside(userRef, () => setIsOpenUser(false));
+  useClickOutside(searchBarRef, () => setShowSearch(false));
+
   return (
     <div className="relative border-b border-gray-300">
       <nav className="bg-white w-full h-[60px] flex items-center justify-center relative px-2">
@@ -134,24 +135,27 @@ function Header() {
             ref={searchBarRef}
           >
             {showSearch ? (
-              <form
-                className="gap-1 items-center hidden lg:flex"
-                onSubmit={handleSubmit}
-              >
-                <div className="flex w-[100%]  rounded-full bg-gray-100 items-center  p-2 gap-2">
-                  <span>
-                    <IoSearchOutline />
-                  </span>
-                  <input
-                    type="text"
-                    placeholder="Search jobs"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    className="outline-none text-md   bg-gray-100 w-full h-full "
+              <div className="w-[100%] hidden lg:flex">            
+                  <JobSearchForm />        
+              </div>
+              //   <form
+              //   className="gap-1 items-center hidden lg:flex"
+              //   onSubmit={handleSubmit}
+              // >
+              //   <div className="flex w-[100%]  rounded-full bg-gray-100 items-center  p-2 gap-2">
+              //     <span>
+              //       <IoSearchOutline />
+              //     </span>
+              //     <input
+              //       type="text"
+              //       placeholder="Search jobs"
+              //       value={query}
+              //       onChange={(e) => setQuery(e.target.value)}
+              //       className="outline-none text-md   bg-gray-100 w-full h-full "
                 
-                  />
-                </div>         
-              </form>
+              //     />
+              //   </div>         
+              // </form>
             ) : null}
             <div className="flex justify-center gap-1    items-center">
               {!showSearch && (
@@ -224,8 +228,12 @@ function Header() {
           <button className="text-xl self-end mb-4" onClick={toggleForm}>
             <IoClose />
           </button>
-          <div className="p-5 w-full">
-            <form
+          <div className="w-full">
+            <div className="p-5 w-full lg:hidden flex">
+              <JobSearchForm />
+            </div>
+
+            {/* <form
               className="gap-3 items-center lg:hidden flex flex-col"
               onSubmit={handleSubmit}
             >
@@ -234,25 +242,21 @@ function Header() {
                   <IoSearchOutline />
                 </span>
                 <input
-            
                   className="outline-none text-md   bg-gray-100 w-full h-full "
-             
-           
                   type="text"
                   placeholder="Search jobs"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-               
                 />
               </div>
-            </form>
+            </form> */}
           </div>
         </div>
 
         <div
           className={`z-50 flex-col  items-center  top-[60px] fixed  right-0 w-[250px] border-gray-300  bg-white border-l-2 border-b-2 z-100 hidden transition-transform duration-500 py-5 rounded-b-md ${
             isOpenUser ? "open " : ""
-          } ${!isLoggedIn ? "h-[150px] gap-5" : "h-[300px] gap-1"}`}
+          }  "h-[300px] gap-1`}
           ref={userRef}
         >
           <button
@@ -263,11 +267,13 @@ function Header() {
               <IoClose />
             </span>
           </button>
-          {isLoggedIn && (
+          {/* {isLoggedIn && ( */}
             <div className="w-full">
               <div className="w-[100%] text-xl flex items-center gap-2 px-5">
                 <FaRegCircleUser />
-                <small className="truncate whitespace-nowrap overflow-hidden font-semibold">{userEmail}</small>
+                <small className="truncate whitespace-nowrap overflow-hidden font-semibold">
+                  {userEmail}
+                </small>
               </div>
               <div className="p-4 w-full flex flex-col items-start gap-1">
                 <button
@@ -299,13 +305,13 @@ function Header() {
                 </button>
               </div>
             </div>
-          )}
+          {/* )} */}
           {isLoggedIn ? (
             <button
               className="w-[140px] font-semibold text-white bg-black hover:bg-red-600  rounded p-2 flex gap-2 justify-center items-center "
               onClick={() => {
                 logOut();
-                toggleUser()
+                toggleUser();
               }}
             >
               <span>Sign Out</span>

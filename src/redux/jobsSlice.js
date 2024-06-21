@@ -50,7 +50,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const apiKey ="c2cb4d7a687c988be981672555597358cabb248b94b04a6af7ccb4861e7e8f4b" //process.env.REACT_APP_SERPAPI_KEY;
+const apiKey ="fa6f8d0ca5338ac8d1a49218a1a2569631bbe2ef7dc85561a8383619c07e8b84" //process.env.REACT_APP_SERPAPI_KEY;
 
 export const fetchJobs = createAsyncThunk(
     'jobs/fetchJobs',

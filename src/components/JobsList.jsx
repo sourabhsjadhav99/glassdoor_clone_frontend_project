@@ -11,13 +11,12 @@ const JobList = () => {
 
   return (
     <div className="bg-white">
-      {jobState.loading && <p>Loading jobs...</p>}
       {jobState.error && <p>Error: {jobState.error}</p>}
-      <div className="job-list">
-        {jobState.data.map((job, index) => (
+      {!jobState?.loading ? <div className="job-list">
+        {jobState?.data ? jobState?.data?.map((job, index) => (
           <JobCard key={job.job_id} job={job} />
-        ))}
-      </div>
+        )):<div className='text-xl'>Sorry! results not found</div>}
+      </div>:<p>Loading jobs...</p>}
     </div>
   );
 };

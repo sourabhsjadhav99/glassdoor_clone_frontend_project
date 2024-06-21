@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
 import "./index.css";
@@ -13,21 +13,46 @@ import SavedJobs from "./pages/SavedJobs";
 import AppliedJobsPage from "./pages/AppliedJobsPage";
 import UpdatePersonalInfoForm from "./components/forms/EditProfileForm";
 import CreateEditProfilePage from "./pages/CreateEditProfilePage";
+import { useFirebase } from "./FirebaseProvider";
+import ApplyJobPage from "./pages/ApplyJobPage";
 
 function App() {
   return (
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<CommunityPage />} />
-        <Route path="/companies" element={<CompaniesPage />} />
+        <Route path="/" element={<JobsPage />} />
         <Route path="/jobs" element={<JobsPage />} />
+        <Route path="/companies" element={<CompaniesPage />} />
+    
         <Route path="/salaries" element={<SalariesPage />} />
 
-        <Route path="/profile" element={<GetPersonalInfo />} />
-        <Route path="/savedjobs" element={<SavedJobs />} />
-        <Route path="/appliedjobs" element={<AppliedJobsPage />} />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <GetPersonalInfo />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/savedjobs"
+          element={
+            <ProtectedRoute>
+              <SavedJobs />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/appliedjobs"
+          element={
+            <ProtectedRoute>
+              <AppliedJobsPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/applyjob" element={<ApplyJobPage />} />
         <Route
           path="/create-edit-profile"
           element={<CreateEditProfilePage />}
@@ -39,3 +64,12 @@ function App() {
 }
 
 export default App;
+
+function ProtectedRoute({ children }) {
+  let { isLoggedIn } = useFirebase();
+
+  if (!isLoggedIn) {
+    return <Navigate to="/signup" />;
+  }
+  return children;
+}

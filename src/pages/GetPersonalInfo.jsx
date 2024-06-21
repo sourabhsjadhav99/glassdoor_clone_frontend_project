@@ -1,52 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { useFirebase } from "../FirebaseProvider";
+import React from "react";
+import PersonalInfo from "../components/PersonalInfo";
 import { useNavigate } from "react-router-dom";
-import { MdEdit } from "react-icons/md";
 
 function GetPersonalInfo() {
-  let [url, setUrl] = useState(null);
-  let { getPdf, userData } = useFirebase();
   let navigate = useNavigate();
-
-
-  useEffect(() => {
-    if (userData?.pdfURL) {
-      getPdf(userData.pdfURL)
-        .then((url) => {
-          setUrl(url);
-        })
-        .catch((error) => {
-          console.error("Error fetching PDF URL:", error);
-        });
-    }
-  }, [userData?.pdfURL]);
-
   return (
-    <div>
-      <button
-        className="flex items-center gap-2 border rounded"
-        onClick={() => navigate("/create-edit-profile")}
-      >
-        {userData ? <small>Edit Profile</small> : <small>Create Profile</small>}
-        <span>
-          <MdEdit />
-        </span>
-      </button>
-
-      <p>{userData?.firstname}</p>
-      <p>{userData?.lastname}</p>
-      <p>{userData?.mobile}</p>
-      <p>{userData?.role}</p>
-      <p>{userData?.userEmail}</p>
-      {url ? (
-        <a href={url} target="_blank" rel="noopener noreferrer">
-          Download PDF
-        </a>
-      ) : (
-        "Loading..."
-      )}
-      <div>
-        <button onClick={() => navigate("/savedjobs")}>Saved jobs</button>
+    <div className="w-[100%] flex  justify-center  bg-white p-10">
+      <div className="w-[100%] md:w-[60%] lg:w-[40%] flex flex-col gap-5">
+        <div>
+          <PersonalInfo />
+        </div>
+        <div className="flex border border-gray-300 rounded p-5 justify-around">
+          <div>
+            <button
+              onClick={() => navigate("/savedjobs")}
+              className="border border-gray-300  rounded p-2 hover:bg-blue-200 bg-green-200 hover:font-semibold"
+            >
+              Saved jobs
+            </button>
+          </div>
+          <div>
+            <button
+              onClick={() => navigate("/savedjobs")}
+              className="border border-gray-300  rounded p-2 hover:bg-blue-200 bg-green-200 hover:font-semibold"
+            >
+              Applied jobs
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

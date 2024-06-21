@@ -9,11 +9,7 @@ import {
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db, storage } from "./firebase";
-import {
-  getDownloadURL,
-  ref,
-  uploadBytes,
-} from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import {
   addDoc,
   collection,
@@ -23,6 +19,8 @@ import {
   where,
 } from "firebase/firestore";
 
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const FirebaseContext = createContext(null);
 
@@ -32,7 +30,6 @@ export const FirebaseProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
   const [userId, setUserId] = useState(null);
-
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -69,7 +66,6 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
-
   const signUpUser = async (email, password) => {
     try {
       const userCredentials = await createUserWithEmailAndPassword(
@@ -78,11 +74,11 @@ export const FirebaseProvider = ({ children }) => {
         password
       );
       console.log("User created:", userCredentials);
-      alert("User created, you can sign in now");
+      toast.success("Successfully signed up");
       navigate("/jobs");
     } catch (error) {
+      toast.error(`${error.message}`);
       console.error("Error during sign up:", error);
-      alert(`Operation failed: ${error.code} ${error.message}`);
     }
   };
 
@@ -94,11 +90,11 @@ export const FirebaseProvider = ({ children }) => {
         password
       );
       console.log("User signed in:", userCredentials);
-      alert("User signed in");
+      toast.success("Successfully signed in");
       navigate("/jobs");
     } catch (error) {
+      toast.error(`${error.message}`);
       console.error("Error during sign in:", error);
-      alert(`Operation failed: ${error.code} ${error.message}`);
     }
   };
 
@@ -106,10 +102,11 @@ export const FirebaseProvider = ({ children }) => {
     const googleProvider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      alert("User signed in");
+      toast.success("Successfully signed in");
       navigate("/jobs");
       console.log(result);
     } catch (error) {
+      toast.error(`${error.message}`);
       console.error("Error during Google sign-in:", error);
     }
   };
@@ -117,10 +114,14 @@ export const FirebaseProvider = ({ children }) => {
   const logOut = async () => {
     try {
       await signOut(auth);
-      console.log("User logged out");
-      alert("User logged out");
+      toast.success("Successfully logged out");
+      setUser(null);
+      setUserEmail(null);
+      setUserId(null);
+      setUserData(null);
       navigate("/signup");
     } catch (error) {
+      toast.error(`${error.message}`);
       console.error("Error during sign-out:", error);
     }
   };
@@ -157,20 +158,13 @@ export const FirebaseProvider = ({ children }) => {
         userEmail: user.email,
         displayName: user.displayName,
         photoURL: user.photoURL,
-        savedJobs: [
-          { id: 1, role: "frontend" },
-          { id: 2, role: "backend" },
-          { id: 3, role: "fullstack" },
-        ],
-        appliedJobs: [
-          { id: 1, role: "frontend" },
-          { id: 2, role: "backend" },
-          { id: 3, role: "fullstack" },
-        ],
+        savedJobs: [],
+        appliedJobs: [],
       });
       await fetchUserData(user.uid);
-      alert("User information uploaded successfully");
+      toast.success("User information uploaded successfully");
     } catch (error) {
+      toast.error(`${error.message}`);
       console.error("Error during user info upload:", error);
     }
   };
@@ -186,17 +180,15 @@ export const FirebaseProvider = ({ children }) => {
         const docRef = querySnapshot.docs[0].ref; // Get reference to the user's document
         await updateDoc(docRef, newData);
         await fetchUserData(user.uid); // Refresh the user data
-        alert("User information updated successfully");
-        navigate("/profile");
+        toast.success("User information updated successfully");
       } else {
         console.log("No such user data to update!");
       }
     } catch (error) {
+      toast.error(`${error.message}`);
       console.error("Error updating user data:", error);
-      alert(`Error updating user data: ${error.message}`);
     }
   };
-
 
   const updateSavedJobs = async (newData) => {
     try {
@@ -209,19 +201,15 @@ export const FirebaseProvider = ({ children }) => {
         const docRef = querySnapshot.docs[0].ref; // Get reference to the user's document
         await updateDoc(docRef, newData);
         await fetchUserData(user.uid); // Refresh the user data
-        alert("Saved jobs updated successfully");
       } else {
         console.log("No such user data to update!");
       }
     } catch (error) {
+      toast.error(`${error.message}`);
       console.error("Error updating saved jobs:", error);
-      alert(`Error updating saved jobs: ${error.message}`);
     }
   };
-  
-
-
-
+  console.log(user, userData,userId)
 
   return (
     <FirebaseContext.Provider
@@ -237,9 +225,21 @@ export const FirebaseProvider = ({ children }) => {
         getPdf,
         updateUserInfo,
         userEmail,
-        updateSavedJobs
+        updateSavedJobs,
       }}
     >
+      <ToastContainer
+        position="top-right"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       {children}
     </FirebaseContext.Provider>
   );

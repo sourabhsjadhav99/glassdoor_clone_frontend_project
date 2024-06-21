@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { FaRegBookmark, FaStar } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
-import { selectJob } from "../../redux/jobDetailsSlice";
+import { selectJob, setIsCardClicked } from "../../redux/jobDetailsSlice";
 import { useFirebase } from "../../FirebaseProvider";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 function JobCard({ job }) {
   const {
     title,
@@ -14,14 +16,10 @@ function JobCard({ job }) {
   } = job;
   const dispatch = useDispatch();
   const selectedJob = useSelector((state) => state.jobDetails.selectedJob);
-  const { updateSavedJobs, userData } = useFirebase();
-  const { savedJobs = [], appliedJobs = [] } = userData || {};
+  let navigate = useNavigate()
 
-  // let handleRemoveJob = async (job_idToDelete) => {
-  //   const updatedJobs = savedJobs.filter((job) => job.id !== job_idToDelete);
-  //   await updateSavedJobs({ savedJobs: updatedJobs });
-
-  // };
+  const { updateSavedJobs, userData, isLoggedIn } = useFirebase();
+  const { savedJobs = [] } = userData || {};
 
   function getRandomSalary() {
     return Math.floor(Math.random() * (15 - 4 + 1)) + 4;
@@ -32,8 +30,8 @@ function JobCard({ job }) {
 
   const handleCardClick = () => {
     dispatch(selectJob(job));
+    dispatch(setIsCardClicked(true));
   };
-
 
   const isJobBookmarked = (job_id) => {
     return savedJobs.some((job) => job.job_id === job_id);
@@ -42,21 +40,16 @@ function JobCard({ job }) {
   const handleBookmarkClick = async (e) => {
     e.stopPropagation();
     if (isJobBookmarked(job_id)) {
-      const updatedJobs = savedJobs.filter((job) => job.id !== job_id);
+      const updatedJobs = savedJobs.filter((job) => job.job_id !== job_id);
       await updateSavedJobs({ savedJobs: updatedJobs });
+      toast.success("Job removed");
     } else {
       const newJob = job;
-    const updatedJobs = [...savedJobs, newJob];
-    await updateSavedJobs({ savedJobs: updatedJobs });
+      const updatedJobs = [...savedJobs, newJob];
+      await updateSavedJobs({ savedJobs: updatedJobs });
+      toast.success("Job saved");
     }
   };
-
-  // let handleSaveJob = async () => {
-  //   const newJob = job;
-  //   const updatedJobs = [...savedJobs, newJob];
-  //   await updateSavedJobs({ savedJobs: updatedJobs });
-  // };
-  console.log(job);
 
   return (
     <div
@@ -69,7 +62,7 @@ function JobCard({ job }) {
     >
       <div className="flex flex-col justify-between  gap-1">
         <div className="flex gap-2 items-center text-sm ">
-          <p className=""> {company_name}</p>
+          <p className="w-[40%] truncate whitespace-nowrap overflow-hidden"> {company_name}</p>
           <p className="flex items-center gap-1">
             <span>{getRandomRatings()}</span>{" "}
             <span className="text-xs">
@@ -77,14 +70,21 @@ function JobCard({ job }) {
             </span>
           </p>
         </div>
-        <p className="text-lg font-semibold">{title}</p>
+        <p className="text-lg font-semibold w-[80%] truncate whitespace-nowrap overflow-hidden">{title}</p>
         <p className="text-xs">{location}</p>
+        {/* {detected_extensions?.salary ?
+          <p className="text-xs">{detected_extensions.salary}</p>: */}
         <p className="text-xs">{getRandomSalary()}L (glassdoor estimated) </p>
+        {/* // } */}
       </div>
       <div className="flex flex-col justify-between items-end">
         <button
-          className={`text-xl hover:bg-green-400 hover:rounded-full w-[35px] h-[35px] flex items-center justify-center ${isJobBookmarked(job_id) ? 'bg-green-400 rounded-full text-white' : ''}`}
-          onClick={handleBookmarkClick}
+          className={`text-xl hover:bg-green-400 hover:rounded-full w-[35px] h-[35px] flex items-center justify-center ${
+            isJobBookmarked(job_id)
+              ? "bg-green-400 rounded-full text-white"
+              : ""
+          }`}
+          onClick={isLoggedIn? handleBookmarkClick:()=>navigate("/signup")}
         >
           <FaRegBookmark />
         </button>

@@ -4,12 +4,12 @@ import { updatePersonalInfoValidationSchema } from "../../utils/formValidation";
 import InputField from "../InputField";
 import Button from "../Button";
 import { useFirebase } from "../../FirebaseProvider";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function EditProfileForm() {
   const { updateUserInfo, userData } = useFirebase();
   let navigate = useNavigate();
-
+  const location = useLocation();
   const formik = useFormik({
     initialValues: {
       firstname: "",
@@ -21,7 +21,10 @@ function EditProfileForm() {
     onSubmit: async (values, { resetForm }) => {
       const { firstname, lastname, mobile, role } = values;
       console.log(values);
+
       updateUserInfo({ firstname, lastname, mobile, role });
+
+      navigate(-1);
       resetForm();
     },
   });
@@ -88,7 +91,7 @@ function EditProfileForm() {
           type="submit"
           className="w-full bg-white text-black border border-black hover:bg-green-500 hover:text-white hover:border-0"
         >
-          Upload
+          Update
         </Button>
       </form>
     </div>
