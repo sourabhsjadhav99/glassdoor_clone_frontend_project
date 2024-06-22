@@ -4,9 +4,11 @@ import { TfiLayoutLineSolid } from "react-icons/tfi";
 import SignUpWithGoogle from "./forms/SignUpWithGoogle";
 import SignInForm from "./forms/SignInForm";
 
-function MainLogin({onClose}) {
+function MainLogin({ onClose }) {
+  // State to toggle between sign-up and sign-in forms
   const [isSignUp, setIsSignUp] = useState(false);
 
+  // Function to toggle between sign-up and sign-in forms
   const toggleForm = () => {
     setIsSignUp(!isSignUp);
   };
@@ -27,7 +29,7 @@ function MainLogin({onClose}) {
         </small>
       </div>
       <div className="w-full">
-        <SignUpWithGoogle onClose={onClose}/>
+        <SignUpWithGoogle onClose={onClose} />
       </div>
       <div className="text-xs flex items-center gap-5">
         <div>
@@ -38,9 +40,18 @@ function MainLogin({onClose}) {
           <TfiLayoutLineSolid />
         </div>
       </div>
+
+      {/* Conditional rendering of sign-up/sign-in forms */}
       <div className="w-full">
-        {isSignUp ? <SignUpForm onClose={onClose} /> : <SignInForm onClose={onClose}/>}
-        <button onClick={toggleForm} className="w-[100%] text-sm mt-4 text-blue-500 hover:underline ">
+        {isSignUp ? (
+          <SignUpForm onClose={onClose} />
+        ) : (
+          <SignInForm onClose={onClose} />
+        )}
+        <button
+          onClick={toggleForm}
+          className="w-[100%] text-sm mt-4 text-blue-500 hover:underline "
+        >
           {isSignUp
             ? "Already have an account? Sign In"
             : "Don't have an account? Sign Up"}

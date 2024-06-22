@@ -1,6 +1,7 @@
 import { FcGoogle } from "react-icons/fc";
 import { useFirebase } from "../../FirebaseProvider";
 function SignUpWithGoogle({ onClose }) {
+  // Access googleLogin function from useFirebase hook
   let { googleLogin } = useFirebase();
 
   return (
@@ -8,8 +9,8 @@ function SignUpWithGoogle({ onClose }) {
       <button
         className="flex justify-between items-center border border-gray-500 p-2 px-5 w-full font-semibold rounded"
         onClick={() => {
-          googleLogin()
-          onClose()
+          googleLogin();
+          onClose();
         }}
       >
         <span className="text-2xl">

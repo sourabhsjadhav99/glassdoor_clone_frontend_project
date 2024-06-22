@@ -1,9 +1,10 @@
+// Navbar data
 let navLinks = [
 
     {
         id: 1,
         name: "Jobs",
-        path: "/jobs",
+        path: "/",
         title: "Find the right job",
         statement: "Millions of jobs. Search by what matters to you and find the one that's right for you",
         image:"jobs.png"
@@ -25,6 +26,8 @@ let navLinks = [
     }
 ]
 
+
+// footer data 
 let footerCountries = [
     'United States',
     'Canada',

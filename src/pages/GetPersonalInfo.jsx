@@ -3,9 +3,11 @@ import PersonalInfo from "../components/PersonalInfo";
 import { useNavigate } from "react-router-dom";
 
 function GetPersonalInfo() {
+  // useNavigate hook for programmatic navigation
   let navigate = useNavigate();
   return (
-    <div className="w-[100%] flex  justify-center  bg-white p-10">
+    // Main container for the component
+    <div className="w-[100%] md:min-h-[90vh] flex  justify-center  bg-white p-10">
       <div className="w-[100%] md:w-[60%] lg:w-[40%] flex flex-col gap-5">
         <div>
           <PersonalInfo />

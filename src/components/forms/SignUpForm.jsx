@@ -9,6 +9,7 @@ import { useFirebase } from '../../FirebaseProvider';
 function SignUpForm({onClose}) {
   const { signUpUser } = useFirebase();
 
+   // Initialize useFormik hook for form state management, validation, and submission
   const formik = useFormik({
     initialValues: {
       email: '',

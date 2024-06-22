@@ -25,37 +25,52 @@ function Header() {
   const [location, setLocation] = useState("");
   const [tooltipId, setTooltipId] = useState(null);
   const [isSignPopupOpen, setIsSignPopupOpen] = useState(false);
+
+   // Destructuring values from useFirebase hook
   let { logOut, isLoggedIn, userEmail } = useFirebase();
+
+  // State for search query
   const [query, setQuery] = useState("");
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
+  // Handle mouse enter event for tooltips
   const handleMouse = (id) => {
     setTooltipId(id);
   };
 
+    // Find tooltip data based on tooltipId
   let tooldata = navLinks.find((link) => link.id === tooltipId);
 
+   // Toggle modal for sign in/sign up form
   const handleModal = () => {
     setIsSignPopupOpen(!isSignPopupOpen);
   };
 
+   // Toggle navigation links
   const toggleNavLinks = () => {
     setIsOpenNavLinks(!isOpenNavLinks);
   };
 
+
+  // Toggle search form
   const toggleForm = () => {
     setIsOpenForm(!isOpenForm);
     setShowSearch(!showSearch);
   };
 
+    // Toggle user menu
   const toggleUser = () => {
     setIsOpenUser(!isOpenUser);
   };
 
+   // Ref for user menu
   const userRef = useRef(null);
+
+    // Ref for search bar
   const searchBarRef = useRef(null);
 
+  // Handle form submission for job search
   const handleSubmit = (e) => {
     e.preventDefault();
     if (query.trim()) {
@@ -65,7 +80,10 @@ function Header() {
     }
   }
 
+   // Handle click outside user menu to close it
   useClickOutside(userRef, () => setIsOpenUser(false));
+
+   // Handle click outside search bar to close search form
   useClickOutside(searchBarRef, () => setShowSearch(false));
 
   return (

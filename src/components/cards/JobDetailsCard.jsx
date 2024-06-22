@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsCardClicked } from "../../redux/jobDetailsSlice";
@@ -26,8 +25,8 @@ const JobDetailsCard = () => {
     related_links,
     job_id,
   } = selectedJob || {};
-  console.log(selectedJob);
 
+  // Toggle full description visibility
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
   };
@@ -36,14 +35,17 @@ const JobDetailsCard = () => {
     return <div className="p-5">Please select a job to see the details.</div>;
   }
 
+  // Check if the job is bookmarked
   const isJobBookmarked = (job_id) => {
     return savedJobs.some((job) => job.job_id === job_id);
   };
 
+  // Check if the job is already applied
   const isJobApplied = (job_id) => {
     return appliedJobs.some((job) => job.job_id === job_id);
   };
 
+  // Handle bookmark button click
   const handleBookmarkClick = async () => {
     if (isJobBookmarked(job_id)) {
       const updatedJobs = savedJobs.filter((job) => job.job_id !== job_id);
@@ -59,9 +61,8 @@ const JobDetailsCard = () => {
 
   let handleJobApplyClick = () => {
     navigate("/applyjob");
-    toast.warning("Update Your Profile Data")
+    toast.warning("Update Your Profile Data");
   };
-
 
   let handleCardClick = () => {
     dispatch(setIsCardClicked(false));
@@ -101,10 +102,9 @@ const JobDetailsCard = () => {
 
           {isJobApplied(job_id) ? (
             <button
-           disabled
+              disabled
               className={` disabled:cursor-not-allowed bg-green-800 text-white font-semibold p-2 rounded  }`}
             >
-           
               <span>Applied</span>
             </button>
           ) : (

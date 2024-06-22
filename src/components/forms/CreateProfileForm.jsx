@@ -7,7 +7,7 @@ import { useFirebase } from "../../FirebaseProvider";
 import { useNavigate } from "react-router-dom";
 
 function CreateProfileForm() {
-  const {uploadUserInfo} = useFirebase();
+  const { uploadUserInfo } = useFirebase();
   let navigate = useNavigate();
 
   const formik = useFormik({
@@ -16,16 +16,20 @@ function CreateProfileForm() {
       lastname: "",
       mobile: "",
       role: "",
-      pdfFile: null
+      pdfFile: null,
     },
     validationSchema: personalInfoValidationSchema,
     onSubmit: async (values, { resetForm }) => {
       const { firstname, lastname, mobile, role, pdfFile } = values;
-      await uploadUserInfo(firstname, lastname, mobile, role, pdfFile)
+
+      // Call uploadUserInfo function with form values and uploaded PDF file
+      await uploadUserInfo(firstname, lastname, mobile, role, pdfFile);
       navigate(-1);
       resetForm();
     },
   });
+
+  // Handle file input change and update formik values
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     formik.setFieldValue("pdfFile", file);
@@ -100,4 +104,3 @@ function CreateProfileForm() {
 }
 
 export default CreateProfileForm;
-

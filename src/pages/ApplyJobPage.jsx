@@ -8,13 +8,21 @@ import { useFirebase } from "../FirebaseProvider";
 import Swal from "sweetalert2";
 
 function ApplyJobPage() {
+  // Retrieve the selected job from Redux state
   const selectedJob = useSelector((state) => state.jobDetails.selectedJob);
+
+  // Local state to manage the visibility of the full job description
   const [showFullDescription, setShowFullDescription] = useState(false);
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
+  // Retrieve user data and Firebase functions from the custom Firebase hook
   const { updateSavedJobs, userData, isLoggedIn } = useFirebase();
+
+  // Destructure user data
   const { savedJobs = [], appliedJobs = [] } = userData || {};
+
+  // Destructure selected job data
   const {
     company_name,
     title,
@@ -26,20 +34,19 @@ function ApplyJobPage() {
     job_id,
   } = selectedJob || {};
 
-
+  // Toggle the visibility of the job description
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
   };
 
+  // Check if the job is already applied
   const isJobApplied = (job_id) => {
     return appliedJobs.some((job) => job.job_id === job_id);
   };
+
+  // Handle applying for the job
   let handleApplyJob = async () => {
     if (!isJobApplied(job_id)) {
-      //   const updatedJobs = appliedJobs.filter((job) => job.job_id !== job_id);
-      //   await updateSavedJobs({ appliedJobs: updatedJobs });
-      //   toast.success("Job removed");
-      // } else {
       const newJob = selectedJob;
       const updatedJobs = [...appliedJobs, newJob];
       await updateSavedJobs({ appliedJobs: updatedJobs });
@@ -52,22 +59,28 @@ function ApplyJobPage() {
       timer: 1500,
     });
 
-    navigate("/jobs")
+    navigate("/");
   };
 
   return (
     <div className="flex flex-col md:flex-row bg-white gap-5 p-5">
       <div className="w-[100%] md:w-[40%] ">
         <PersonalInfo />
-       {userData ?
-        <button
-          className={
-           `w-[100%] border mt-5 rounded text-white font-semibold bg-green-400 hover:bg-green-700 hover:font-bold p-2 `
-          }
-          onClick={handleApplyJob}
-        >
-          Apply Now
-        </button>:<button className="underline" onClick={()=>navigate("/create-edit-profile")}>Upload your profile data</button>}
+        {userData ? (
+          <button
+            className={`w-[100%] border mt-5 rounded text-white font-semibold bg-green-400 hover:bg-green-700 hover:font-bold p-2 `}
+            onClick={handleApplyJob}
+          >
+            Apply Now
+          </button>
+        ) : (
+          <button
+            className="underline"
+            onClick={() => navigate("/create-edit-profile")}
+          >
+            Upload your profile data
+          </button>
+        )}
       </div>
       <div className="w-[100%] md:w-[60%] border rounded md:h-[100vh]">
         <div className="p-5 bg-white shadow-md rounded overflow-y-auto h-full scrollbar">
@@ -97,7 +110,9 @@ function ApplyJobPage() {
           <div className="mb-4">
             <h3 className="text-lg font-semibold mb-1">Details</h3>
             {detected_extensions?.posted_at && (
-              <p className="text-sm">Posted: {detected_extensions?.posted_at}</p>
+              <p className="text-sm">
+                Posted: {detected_extensions?.posted_at}
+              </p>
             )}
             {detected_extensions?.salary && (
               <p className="text-sm">Salary: {detected_extensions?.salary}</p>

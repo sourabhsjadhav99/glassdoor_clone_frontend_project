@@ -16,34 +16,45 @@ function JobCard({ job }) {
   } = job;
   const dispatch = useDispatch();
   const selectedJob = useSelector((state) => state.jobDetails.selectedJob);
-  let navigate = useNavigate()
+  let navigate = useNavigate();
 
+  // Firebase hooks for user data and actions
   const { updateSavedJobs, userData, isLoggedIn } = useFirebase();
   const { savedJobs = [] } = userData || {};
 
+  // Function to generate a random salary for UI display
   function getRandomSalary() {
     return Math.floor(Math.random() * (15 - 4 + 1)) + 4;
   }
+
+  // Function to generate random ratings for UI display
   function getRandomRatings() {
     return Math.round((Math.random() * (5 - 3) + 3) * 10) / 10;
   }
 
+  // Handle click event on the job card
   const handleCardClick = () => {
     dispatch(selectJob(job));
     dispatch(setIsCardClicked(true));
   };
 
+  // Check if the job is already bookmarked
   const isJobBookmarked = (job_id) => {
     return savedJobs.some((job) => job.job_id === job_id);
   };
 
+  // Handle click event on the bookmark icon
   const handleBookmarkClick = async (e) => {
+    // Prevent the card click event from firing
     e.stopPropagation();
+
     if (isJobBookmarked(job_id)) {
+      // If already bookmarked, remove from saved jobs
       const updatedJobs = savedJobs.filter((job) => job.job_id !== job_id);
       await updateSavedJobs({ savedJobs: updatedJobs });
       toast.success("Job removed");
     } else {
+      // If not bookmarked, add to saved jobs
       const newJob = job;
       const updatedJobs = [...savedJobs, newJob];
       await updateSavedJobs({ savedJobs: updatedJobs });
@@ -62,7 +73,10 @@ function JobCard({ job }) {
     >
       <div className="flex flex-col justify-between  gap-1">
         <div className="flex gap-2 items-center text-sm ">
-          <p className="w-[40%] truncate whitespace-nowrap overflow-hidden"> {company_name}</p>
+          <p className="w-[40%] truncate whitespace-nowrap overflow-hidden">
+            {" "}
+            {company_name}
+          </p>
           <p className="flex items-center gap-1">
             <span>{getRandomRatings()}</span>{" "}
             <span className="text-xs">
@@ -70,10 +84,11 @@ function JobCard({ job }) {
             </span>
           </p>
         </div>
-        <p className="text-lg font-semibold w-[80%] truncate whitespace-nowrap overflow-hidden">{title}</p>
+        <p className="text-lg font-semibold w-[80%] truncate whitespace-nowrap overflow-hidden">
+          {title}
+        </p>
         <p className="text-xs">{location}</p>
         <p className="text-xs">{getRandomSalary()}L (glassdoor estimated) </p>
-  
       </div>
       <div className="flex flex-col justify-between items-end">
         <button
@@ -82,7 +97,7 @@ function JobCard({ job }) {
               ? "bg-green-400 rounded-full text-white"
               : ""
           }`}
-          onClick={isLoggedIn? handleBookmarkClick:()=>navigate("/signup")}
+          onClick={isLoggedIn ? handleBookmarkClick : () => navigate("/signup")}
         >
           <FaRegBookmark />
         </button>

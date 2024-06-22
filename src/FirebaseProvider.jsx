@@ -33,6 +33,7 @@ export const FirebaseProvider = ({ children }) => {
   const [loading, setLoading] = useState(null);
   const [error, setError] = useState(null);
 
+  // Effect hook to listen for authentication state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -50,8 +51,9 @@ export const FirebaseProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
+  // Function to fetch user data based on user ID
   const fetchUserData = async (uid) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const userDocQuery = query(
         collection(db, "userInfo"),
@@ -61,16 +63,17 @@ export const FirebaseProvider = ({ children }) => {
       if (!querySnapshot.empty) {
         const data = querySnapshot.docs[0].data();
         setUserData(data);
-        setLoading(false)
+        setLoading(false);
       } else {
         console.log("No such user data!");
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
-      setError(error)
+      setError(error);
     }
   };
 
+  // Function to sign up a new user
   const signUpUser = async (email, password) => {
     try {
       const userCredentials = await createUserWithEmailAndPassword(
@@ -78,15 +81,15 @@ export const FirebaseProvider = ({ children }) => {
         email,
         password
       );
-      console.log("User created:", userCredentials);
       toast.success("Successfully signed up");
-      navigate("/jobs");
+      navigate("/");
     } catch (error) {
       toast.error(`${error.message}`);
       console.error("Error during sign up:", error);
     }
   };
 
+  // Function to sign in an existing user
   const signInUser = async (email, password) => {
     try {
       const userCredentials = await signInWithEmailAndPassword(
@@ -94,28 +97,28 @@ export const FirebaseProvider = ({ children }) => {
         email,
         password
       );
-      console.log("User signed in:", userCredentials);
       toast.success("Successfully signed in");
-      navigate("/jobs");
+      navigate("/");
     } catch (error) {
       toast.error(`${error.message}`);
       console.error("Error during sign in:", error);
     }
   };
 
+  // Function to sign in with Google
   const googleLogin = async () => {
     const googleProvider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, googleProvider);
       toast.success("Successfully signed in");
-      navigate("/jobs");
-      console.log(result);
+      navigate("/");
     } catch (error) {
       toast.error(`${error.message}`);
       console.error("Error during Google sign-in:", error);
     }
   };
 
+  // Function to log out the current user
   const logOut = async () => {
     try {
       await signOut(auth);
@@ -131,6 +134,7 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
+  // Function to get user information from Firestore
   const getUserInfo = () => {
     try {
       return getDocs(collection(db, "userInfo"));
@@ -139,6 +143,7 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
+  // Function to get PDF file from Firebase Storage
   const getPdf = async (path) => {
     try {
       return await getDownloadURL(ref(storage, path));
@@ -147,8 +152,11 @@ export const FirebaseProvider = ({ children }) => {
       throw error;
     }
   };
+
+  // Check if user is logged in
   let isLoggedIn = user ? true : false;
 
+  // Function to upload user information to Firestore and Firebase Storage
   const uploadUserInfo = async (firstname, lastname, mobile, role, pdfFile) => {
     try {
       const pdfRef = ref(storage, `upload/pdf/${Date.now()}-${pdfFile.name}`);
@@ -174,6 +182,7 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
+  // Function to update user information in Firestore
   const updateUserInfo = async (newData) => {
     try {
       const userDocQuery = query(
@@ -195,6 +204,7 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
+  // Function to update saved jobs in user data
   const updateSavedJobs = async (newData) => {
     try {
       const userDocQuery = query(
@@ -214,8 +224,8 @@ export const FirebaseProvider = ({ children }) => {
       console.error("Error updating saved jobs:", error);
     }
   };
-  console.log(user, userData,userId)
 
+  // Provide Firebase functionality and state through context
   return (
     <FirebaseContext.Provider
       value={{
@@ -232,9 +242,10 @@ export const FirebaseProvider = ({ children }) => {
         userEmail,
         updateSavedJobs,
         loading,
-        error
+        error,
       }}
     >
+      {/* Display toast notifications container */}
       <ToastContainer
         position="top-right"
         autoClose={1500}

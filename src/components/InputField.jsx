@@ -15,6 +15,7 @@ const InputField = ({
     <div className="flex flex-col  gap-1">
       <div className="">{label && <label htmlFor={name} className="text-sm float-left ">{label}</label>}</div>
       <div>
+         {/* Input field with conditional styling based on error and touch status */}
         <input
           type={type}
           name={name}

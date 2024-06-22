@@ -1,10 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+
+// Define the initial state for the job details slice
 const initialState = {
   selectedJob: null,
   isCardClicked:false
 };
 
+
+
+// Create the jobDetailsSlice using createSlice
 const jobDetailsSlice = createSlice({
   name: "jobDetails",
   initialState,
@@ -21,6 +26,8 @@ const jobDetailsSlice = createSlice({
   },
 });
 
+
+// Destructure the generated action creators from jobDetailsSlice
 export const { selectJob, clearSelectedJob, setIsCardClicked } = jobDetailsSlice.actions;
 
 export default jobDetailsSlice.reducer;

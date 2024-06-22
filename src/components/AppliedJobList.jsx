@@ -14,6 +14,7 @@ const SavedJobList = () => {
   const { appliedJobs = [], error=null, loading=false } = userData || {};
 
   useEffect(() => {
+    // Update state with applied jobs data
     setData(appliedJobs)
     setAppliedError(error)
     setAppliedLoading(loading)

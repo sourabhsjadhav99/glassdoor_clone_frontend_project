@@ -6,20 +6,20 @@ import { useFirebase } from "../FirebaseProvider";
 import SavedJobCard from "./cards/SavedJobCard";
 
 const SavedJobList = () => {
-  const [data, setData] = useState([]);
-  const [appliedLoading, setAppliedLoading] = useState(false);
-  const [appliedError, setAppliedError] = useState(null);
-  const {  userData } = useFirebase();
+  const [data, setData] = useState([]); // State to hold job data
+  const [appliedLoading, setAppliedLoading] = useState(false); // State to manage loading status
+  const [appliedError, setAppliedError] = useState(null); // State to manage error status
+  const { userData } = useFirebase(); // Retrieving userData from FirebaseProvider
 
 
   // Destructure userData safely by providing default values
   const { savedJobs = [], error=null, loading=false } = userData || {};
 
   useEffect(() => {
-    setData(savedJobs)
-    setAppliedError(error)
-    setAppliedLoading(loading)
-  }, [userData]);
+    setData(savedJobs); // Set job data to the savedJobs from userData
+    setAppliedError(error); // Set error status
+    setAppliedLoading(loading); // Set loading status
+  }, [userData]); // Trigger effect on changes in userData
 
 
   return (

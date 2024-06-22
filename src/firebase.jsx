@@ -8,7 +8,7 @@ import { getStorage } from "firebase/storage";
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCOhuOSAiOK18Vz9pZAjf7mgYNzrGo0STs",
+  apiKey: import.meta.env.VITE_APP_FIREBASE_API_KEY,
   authDomain: "glassdoor-clone-c3156.firebaseapp.com",
   projectId: "glassdoor-clone-c3156",
   storageBucket: "glassdoor-clone-c3156.appspot.com",

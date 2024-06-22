@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { HiOutlineSparkles } from "react-icons/hi";
@@ -10,6 +8,9 @@ import { fetchJobs } from "../redux/jobsSlice";
 const JobSearch = () => {
   const dispatch = useDispatch();
   const { userData } = useFirebase();
+
+
+  // List of predefined job queries
   const jobQueries = [
     "web developer",
     "mechanical engineer",
@@ -18,24 +19,28 @@ const JobSearch = () => {
     "sales executive",
   ];
 
+  // State to manage the search query and active button
   const [query, setQuery] = useState("");
 
   const [activeButton, setActiveButton] = useState("forYou");
 
+  // Function to get a random job query from the list
   const getRandomQuery = () => {
     const randomIndex = Math.floor(Math.random() * jobQueries.length);
     return jobQueries[randomIndex];
   };
 
 
-
+ // Handler for "For You" button click
   const handleForYouClick = () => {
     setActiveButton("forYou");
+    // Use user's role as the query or a random query if not available
     const randomQuery = userData?.role || getRandomQuery();
     dispatch(fetchJobs({ q: randomQuery }));
     setQuery("");
   };
 
+    // Handler for "Search" button click
   const handleSearch = (type) => {
     setActiveButton(type);
   };

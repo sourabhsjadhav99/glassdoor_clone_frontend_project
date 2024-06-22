@@ -4,11 +4,13 @@ import { updatePersonalInfoValidationSchema } from "../../utils/formValidation";
 import InputField from "../InputField";
 import Button from "../Button";
 import { useFirebase } from "../../FirebaseProvider";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function EditProfileForm() {
   const { updateUserInfo, userData } = useFirebase();
   let navigate = useNavigate();
+
+  // Initialize useFormik hook with form values, validation schema, and submit handler
   const formik = useFormik({
     initialValues: {
       firstname: "",
@@ -16,18 +18,24 @@ function EditProfileForm() {
       mobile: "",
       role: "",
     },
+
+    // Validation schema for form fields
     validationSchema: updatePersonalInfoValidationSchema,
     onSubmit: async (values, { resetForm }) => {
       const { firstname, lastname, mobile, role } = values;
-      console.log(values);
 
+      // Call updateUserInfo function with form values
       updateUserInfo({ firstname, lastname, mobile, role });
 
+      // Navigate back after form submission
       navigate(-1);
+
+      // Reset the form after successful submission
       resetForm();
     },
   });
 
+  // Effect to update form values when userData changes
   useEffect(() => {
     if (userData) {
       formik.setValues({
@@ -41,6 +49,7 @@ function EditProfileForm() {
 
   return (
     <div className="">
+      {/* Form element with formik.handleSubmit as onSubmit handler */}
       <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
         <InputField
           type="text"

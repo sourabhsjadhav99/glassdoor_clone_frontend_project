@@ -6,12 +6,13 @@ import { setIsCardClicked } from "../../redux/jobDetailsSlice";
 import { IoIosArrowBack } from "react-icons/io";
 
 const SavedJobDetailsCard = () => {
+
+   // Retrieve selected job details from Redux store
   const selectedJob = useSelector((state) => state.jobDetails.selectedJob);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const dispatch = useDispatch();
  
-
-
+// Destructure relevant properties from selectedJob or default to an empty object
   const {
     company_name,
     title,
@@ -23,17 +24,17 @@ const SavedJobDetailsCard = () => {
     job_id,
   } = selectedJob || {};
   
-
+ // Toggle show/hide full description
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
   };
 
+  // Render message if no job is selected
   if (!selectedJob) {
     return <div className="p-5">Please select a job to see the details.</div>;
   }
 
-
-
+ // Handle click on card to set isCardClicked in Redux store
   let handleCardClick = () => {
     dispatch(setIsCardClicked(false));
   };

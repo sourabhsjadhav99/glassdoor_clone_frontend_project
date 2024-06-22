@@ -1,3 +1,4 @@
+// Custom Button component
 import React from 'react';
 
 const Button = ({ type, children, className }) => {

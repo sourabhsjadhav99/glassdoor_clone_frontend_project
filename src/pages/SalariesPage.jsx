@@ -2,6 +2,8 @@ import React from "react";
 import Img from "../components/Img";
 import salaries_bg from "../assets/salaries_bg.jpg";
 import tablet from "../assets/tablet.webp";
+
+// Define the SalariesPage component
 function SalariesPage() {
   return (
     <div className="w-[100%] justify-center">

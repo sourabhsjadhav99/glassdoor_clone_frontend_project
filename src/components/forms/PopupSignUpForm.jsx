@@ -4,6 +4,7 @@ import MainLogin from '../MainLogin';
 
 const PopupSignUpForm = ({ isOpen, onClose }) => {
 
+    // Render null if the form is not open
   if (!isOpen) return null;
 
   return (

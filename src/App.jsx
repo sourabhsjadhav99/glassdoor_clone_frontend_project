@@ -1,32 +1,41 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
 import "./index.css";
 import CompaniesPage from "./pages/CompaniesPage";
 import SignupPage from "./pages/SignupPage";
-
 import SalariesPage from "./pages/SalariesPage";
 import JobsPage from "./pages/JobsPage";
-import PersonalDataPage from "./pages/CreateEditProfilePage";
 import GetPersonalInfo from "./pages/GetPersonalInfo";
 import SavedJobs from "./pages/SavedJobs";
 import AppliedJobsPage from "./pages/AppliedJobsPage";
-import UpdatePersonalInfoForm from "./components/forms/EditProfileForm";
 import CreateEditProfilePage from "./pages/CreateEditProfilePage";
 import { useFirebase } from "./FirebaseProvider";
 import ApplyJobPage from "./pages/ApplyJobPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
+
+// ProtectedRoute component to handle protected routes based on user authentication
+function ProtectedRoute({ children }) {
+  let { isLoggedIn } = useFirebase();
+
+   // If user is not logged in, navigate to the signup page
+  if (!isLoggedIn) {
+    return <Navigate to="/signup" />;
+  }
+  return children;
+}
+
+
+// Main App component
 function App() {
   return (
     <>
       <Header />
       <Routes>
         <Route path="/" element={<JobsPage />} />
-        <Route path="/jobs" element={<JobsPage />} />
         <Route path="/companies" element={<CompaniesPage />} />
-    
         <Route path="/salaries" element={<SalariesPage />} />
-
         <Route
           path="/profile"
           element={
@@ -52,11 +61,23 @@ function App() {
           }
         />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/applyjob" element={<ApplyJobPage />} />
+        <Route
+          path="/applyjob"
+          element={
+            <ProtectedRoute>
+              <ApplyJobPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/create-edit-profile"
-          element={<CreateEditProfilePage />}
+          element={
+            <ProtectedRoute>
+              <CreateEditProfilePage />
+            </ProtectedRoute>
+          }
         />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
     </>
@@ -64,12 +85,3 @@ function App() {
 }
 
 export default App;
-
-function ProtectedRoute({ children }) {
-  let { isLoggedIn } = useFirebase();
-
-  if (!isLoggedIn) {
-    return <Navigate to="/signup" />;
-  }
-  return children;
-}

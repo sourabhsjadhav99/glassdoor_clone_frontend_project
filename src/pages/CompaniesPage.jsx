@@ -1,14 +1,19 @@
 import React from "react";
 import companyImg from "../assets/companies.webp";
+import Img from "../components/Img";
 
 function CompaniesPage() {
   return (
     <div className="w-full">
+      {/* Header Section with Image and Information */}
       <div className="w-full bg-green-50 flex justify-center py-10">
         <div className="w-full xl:w-[70%] lg:[85%] flex flex-col lg:flex-row justify-between items-center gap-2">
           <div className="w-full lg:w-1/2 ">
-            <img src={companyImg} alt="" className="w-[100%] h-[100%]" />
+            {/* Image Container */}
+            <Img src={companyImg} alt="" className="w-[100%] h-[100%]" />
           </div>
+
+          {/* Text Information Container */}
           <div className="w-full lg:w-1/2 flex flex-col gap-4">
             <div className="">
               <h1 className="text-2xl font-bold">
@@ -18,6 +23,8 @@ function CompaniesPage() {
                 </small>
               </h1>
             </div>
+
+            {/* Description Text */}
             <div>
               <p className="text-[#20262e]">
                 Discover what an employer is really like before you make your
@@ -25,6 +32,8 @@ function CompaniesPage() {
                 based on the qualities that matter most to your job search.
               </p>
             </div>
+
+            {/* Filter Buttons */}
             <div className="flex gap-2 flex-wrap">
               <button className="bg-white border text-[#20262e]  rounded  p-2 text-md font-bold">
                 Work/Life Balance
@@ -39,6 +48,8 @@ function CompaniesPage() {
           </div>
         </div>
       </div>
+
+      {/* Search Section */}
       <div className="w-full flex flex-col   lg:flex-row justify-center items-center bg-white p-10 border-b-2 gap-2">
         <p>Have an employer in mind?</p>
         <div className="min-w-[30%] flex gap-2">

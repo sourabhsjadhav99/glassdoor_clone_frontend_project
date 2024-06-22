@@ -7,6 +7,7 @@ import { useFirebase } from "../../FirebaseProvider";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 function AppliedJobCard({ job }) {
+   // Destructuring job object
   const {
     title,
     company_name,
@@ -19,16 +20,22 @@ function AppliedJobCard({ job }) {
   const selectedJob = useSelector((state) => state.jobDetails.selectedJob);
   let navigate = useNavigate();
 
+   // Firebase hooks for user data and actions
   const { updateSavedJobs, userData, isLoggedIn } = useFirebase();
   const { appliedJobs = [] } = userData || {};
 
+
+   // Function to generate a random salary for UI display
   function getRandomSalary() {
     return Math.floor(Math.random() * (15 - 4 + 1)) + 4;
   }
+
+   // Function to generate random ratings for UI display
   function getRandomRatings() {
     return Math.round((Math.random() * (5 - 3) + 3) * 10) / 10;
   }
 
+    // Handle click event on the job card
   const handleCardClick = () => {
     dispatch(selectJob(job));
     dispatch(setIsCardClicked(true));
@@ -41,6 +48,7 @@ function AppliedJobCard({ job }) {
   const handleRemoveJob = async (e) => {
     e.stopPropagation();
     if (isApplied(job_id)) {
+      // If the job is applied, remove it from applied jobs
       const updatedJobs = appliedJobs?.filter((job) => job.job_id !== job_id);
       await updateSavedJobs({ appliedJobs: updatedJobs });
 

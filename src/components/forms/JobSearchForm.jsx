@@ -1,5 +1,3 @@
-// src/components/JobSearchForm.js
-
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { IoMdSearch } from "react-icons/io";
@@ -10,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const JobSearchForm = ({ onSearch }) => {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
-  let navigate = useNavigate()
+  let navigate = useNavigate();
   const { userData } = useFirebase();
 
   const jobQueries = [
@@ -34,10 +32,12 @@ const JobSearchForm = ({ onSearch }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (query.trim()) {
+      // If search query is provided, dispatch fetchJobs with the query
       dispatch(fetchJobs({ q: query }));
       onSearch && onSearch("search");
-      navigate("/jobs")
+      navigate("/");
     } else {
+      // If search query is empty, generate a random query and dispatch fetchJobs
       const randomQuery = getRandomQuery();
       dispatch(fetchJobs({ q: randomQuery }));
       onSearch && onSearch("forYou");

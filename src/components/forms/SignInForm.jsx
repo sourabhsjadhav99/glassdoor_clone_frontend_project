@@ -1,27 +1,27 @@
-import React from 'react';
-import { useFormik } from 'formik';
-import { signInvalidationSchema } from '../../utils/formValidation';
-import InputField from '../../components/InputField';
-import Button from '../../components/Button';
-import { useFirebase } from '../../FirebaseProvider';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useFormik } from "formik";
+import { signInvalidationSchema } from "../../utils/formValidation";
+import InputField from "../../components/InputField";
+import Button from "../../components/Button";
+import { useFirebase } from "../../FirebaseProvider";
+import { useNavigate } from "react-router-dom";
 
-function SignUpForm({onClose}) {
+function SignUpForm({ onClose }) {
   const { signInUser } = useFirebase();
-  let navigate =useNavigate()
+  let navigate = useNavigate();
 
+  // Initialize useFormik hook for form state management, validation, and submission
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
     validationSchema: signInvalidationSchema,
     onSubmit: async (values, { resetForm }) => {
       const { email, password } = values;
       await signInUser(email, password);
       resetForm(); // Reset the form after successful submission
-      onClose()
-      
+      onClose();
     },
   });
 

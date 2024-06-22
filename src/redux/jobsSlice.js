@@ -1,23 +1,22 @@
-
-
+// Import necessary functions and libraries from Redux Toolkit and Axios
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const apiKey ="fa6f8d0ca5338ac8d1a49218a1a2569631bbe2ef7dc85561a8383619c07e8b84" //process.env.REACT_APP_SERPAPI_KEY;
+// Get the API key from environment variables using Vite
+const apiKey = import.meta.env.VITE_APP_SERPAPI_KEY
 
+
+// Create an asynchronous thunk to fetch jobs data from an API
 export const fetchJobs = createAsyncThunk(
     'jobs/fetchJobs',
-    async ({ q="software engineer"}, { rejectWithValue }) => {
+    async ({ q = "software engineer" }, { rejectWithValue }) => {
         try {
             const response = await axios.get('/api/search', {
                 params: {
-                    api_key:apiKey,
+                    api_key: apiKey,
                     engine: 'google_jobs',
                     google_domain: 'google.co.in',
-                    q,
-                    // hl: 'hi',
-                    // gl: 'in',
-              
+                    q
                 }
             });
             return response.data.jobs_results;
@@ -27,6 +26,7 @@ export const fetchJobs = createAsyncThunk(
     }
 );
 
+// Create a slice for managing jobs state
 const jobSlice = createSlice({
     name: 'jobs',
     initialState: {

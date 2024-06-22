@@ -11,9 +11,13 @@ import { useFirebase } from "../FirebaseProvider";
 import { useNavigate } from "react-router-dom";
 
 function SignupPage() {
+  // Destructure isLoggedIn from the useFirebase hook
   let { isLoggedIn } = useFirebase();
+
+  // Get navigate function from useNavigate hook
   let navigate = useNavigate();
 
+  // useEffect hook to redirect user if already logged in
   useEffect(() => {
     if (isLoggedIn) {
       navigate(-1);
