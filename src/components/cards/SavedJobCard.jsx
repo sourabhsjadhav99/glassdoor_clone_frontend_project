@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { FaRegBookmark, FaStar } from "react-icons/fa6";
+import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { selectJob, setIsCardClicked } from "../../redux/jobDetailsSlice";
 import { useFirebase } from "../../FirebaseProvider";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-function JobCard({ job }) {
+function SavedJobCard({ job }) {
   const {
     title,
     company_name,
@@ -43,12 +44,7 @@ function JobCard({ job }) {
       const updatedJobs = savedJobs.filter((job) => job.job_id !== job_id);
       await updateSavedJobs({ savedJobs: updatedJobs });
       toast.success("Job removed");
-    } else {
-      const newJob = job;
-      const updatedJobs = [...savedJobs, newJob];
-      await updateSavedJobs({ savedJobs: updatedJobs });
-      toast.success("Job saved");
-    }
+    } 
   };
 
   return (
@@ -72,19 +68,16 @@ function JobCard({ job }) {
         </div>
         <p className="text-lg font-semibold w-[80%] truncate whitespace-nowrap overflow-hidden">{title}</p>
         <p className="text-xs">{location}</p>
+
         <p className="text-xs">{getRandomSalary()}L (glassdoor estimated) </p>
-  
+   
       </div>
       <div className="flex flex-col justify-between items-end">
         <button
-          className={`text-xl hover:bg-green-400 hover:rounded-full w-[35px] h-[35px] flex items-center justify-center ${
-            isJobBookmarked(job_id)
-              ? "bg-green-400 rounded-full text-white"
-              : ""
-          }`}
+          className={`text-xl bg-white text-gray-500 hover:text-red-600 rounded-md w-[35px] h-[35px] flex items-center justify-center `}
           onClick={isLoggedIn? handleBookmarkClick:()=>navigate("/signup")}
         >
-          <FaRegBookmark />
+        <MdDelete />
         </button>
         <p className="text-sm">{detected_extensions?.posted_at}</p>
       </div>
@@ -92,4 +85,4 @@ function JobCard({ job }) {
   );
 }
 
-export default JobCard;
+export default SavedJobCard;

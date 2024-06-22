@@ -30,6 +30,8 @@ export const FirebaseProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [loading, setLoading] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -49,6 +51,7 @@ export const FirebaseProvider = ({ children }) => {
   }, []);
 
   const fetchUserData = async (uid) => {
+    setLoading(true)
     try {
       const userDocQuery = query(
         collection(db, "userInfo"),
@@ -58,11 +61,13 @@ export const FirebaseProvider = ({ children }) => {
       if (!querySnapshot.empty) {
         const data = querySnapshot.docs[0].data();
         setUserData(data);
+        setLoading(false)
       } else {
         console.log("No such user data!");
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
+      setError(error)
     }
   };
 
@@ -226,6 +231,8 @@ export const FirebaseProvider = ({ children }) => {
         updateUserInfo,
         userEmail,
         updateSavedJobs,
+        loading,
+        error
       }}
     >
       <ToastContainer

@@ -27,7 +27,7 @@ function MainLogin({onClose}) {
         </small>
       </div>
       <div className="w-full">
-        <SignUpWithGoogle />
+        <SignUpWithGoogle onClose={onClose}/>
       </div>
       <div className="text-xs flex items-center gap-5">
         <div>

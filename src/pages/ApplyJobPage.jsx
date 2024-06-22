@@ -25,7 +25,7 @@ function ApplyJobPage() {
     related_links,
     job_id,
   } = selectedJob || {};
-  console.log(selectedJob);
+
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
@@ -97,21 +97,21 @@ function ApplyJobPage() {
           <div className="mb-4">
             <h3 className="text-lg font-semibold mb-1">Details</h3>
             {detected_extensions?.posted_at && (
-              <p className="text-sm">Posted: {detected_extensions.posted_at}</p>
+              <p className="text-sm">Posted: {detected_extensions?.posted_at}</p>
             )}
             {detected_extensions?.salary && (
-              <p className="text-sm">Salary: {detected_extensions.salary}</p>
+              <p className="text-sm">Salary: {detected_extensions?.salary}</p>
             )}
             {detected_extensions?.schedule_type && (
               <p className="text-sm">
-                Type: {detected_extensions.schedule_type}
+                Type: {detected_extensions?.schedule_type}
               </p>
             )}
           </div>
-          {job_highlights && job_highlights.length > 0 && (
+          {job_highlights && job_highlights?.length > 0 && (
             <div className="mb-4">
               <h3 className="text-lg font-semibold mb-1">Highlights</h3>
-              {job_highlights.map((highlight, index) => (
+              {job_highlights?.map((highlight, index) => (
                 <div key={index} className="mb-2">
                   <h4 className="font-semibold">{highlight.title}</h4>
                   <ul className="list-disc ml-5">
@@ -127,15 +127,15 @@ function ApplyJobPage() {
             <div className="mb-4">
               <h3 className="text-lg font-semibold mb-1">Related Links</h3>
               <ul className="list-disc ml-5">
-                {related_links.map((link, index) => (
+                {related_links?.map((link, index) => (
                   <li key={index}>
                     <a
-                      href={link.link}
+                      href={link?.link}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-500"
                     >
-                      {link.text}
+                      {link?.text}
                     </a>
                   </li>
                 ))}

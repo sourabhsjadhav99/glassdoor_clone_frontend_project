@@ -4,12 +4,11 @@ import { updatePersonalInfoValidationSchema } from "../../utils/formValidation";
 import InputField from "../InputField";
 import Button from "../Button";
 import { useFirebase } from "../../FirebaseProvider";
-import { useLocation, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 function EditProfileForm() {
   const { updateUserInfo, userData } = useFirebase();
   let navigate = useNavigate();
-  const location = useLocation();
   const formik = useFormik({
     initialValues: {
       firstname: "",

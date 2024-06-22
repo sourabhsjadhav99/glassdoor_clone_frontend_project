@@ -138,24 +138,6 @@ function Header() {
               <div className="w-[100%] hidden lg:flex">            
                   <JobSearchForm />        
               </div>
-              //   <form
-              //   className="gap-1 items-center hidden lg:flex"
-              //   onSubmit={handleSubmit}
-              // >
-              //   <div className="flex w-[100%]  rounded-full bg-gray-100 items-center  p-2 gap-2">
-              //     <span>
-              //       <IoSearchOutline />
-              //     </span>
-              //     <input
-              //       type="text"
-              //       placeholder="Search jobs"
-              //       value={query}
-              //       onChange={(e) => setQuery(e.target.value)}
-              //       className="outline-none text-md   bg-gray-100 w-full h-full "
-                
-              //     />
-              //   </div>         
-              // </form>
             ) : null}
             <div className="flex justify-center gap-1    items-center">
               {!showSearch && (
@@ -232,24 +214,6 @@ function Header() {
             <div className="p-5 w-full lg:hidden flex">
               <JobSearchForm />
             </div>
-
-            {/* <form
-              className="gap-3 items-center lg:hidden flex flex-col"
-              onSubmit={handleSubmit}
-            >
-              <div className="flex w-[100%]  rounded-full bg-gray-100 items-center  p-2 gap-2">
-                <span>
-                  <IoSearchOutline />
-                </span>
-                <input
-                  className="outline-none text-md   bg-gray-100 w-full h-full "
-                  type="text"
-                  placeholder="Search jobs"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                />
-              </div>
-            </form> */}
           </div>
         </div>
 
@@ -267,7 +231,6 @@ function Header() {
               <IoClose />
             </span>
           </button>
-          {/* {isLoggedIn && ( */}
             <div className="w-full">
               <div className="w-[100%] text-xl flex items-center gap-2 px-5">
                 <FaRegCircleUser />
@@ -305,7 +268,6 @@ function Header() {
                 </button>
               </div>
             </div>
-          {/* )} */}
           {isLoggedIn ? (
             <button
               className="w-[140px] font-semibold text-white bg-black hover:bg-red-600  rounded p-2 flex gap-2 justify-center items-center "

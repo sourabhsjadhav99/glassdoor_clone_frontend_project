@@ -4,7 +4,7 @@ import Header from "./components/header/Header";
 import "./index.css";
 import CompaniesPage from "./pages/CompaniesPage";
 import SignupPage from "./pages/SignupPage";
-import CommunityPage from "./pages/CommunityPage";
+
 import SalariesPage from "./pages/SalariesPage";
 import JobsPage from "./pages/JobsPage";
 import PersonalDataPage from "./pages/CreateEditProfilePage";

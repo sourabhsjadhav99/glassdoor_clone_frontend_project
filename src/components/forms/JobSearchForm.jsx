@@ -5,10 +5,12 @@ import { useDispatch } from "react-redux";
 import { IoMdSearch } from "react-icons/io";
 import { fetchJobs } from "../../redux/jobsSlice";
 import { useFirebase } from "../../FirebaseProvider";
+import { useNavigate } from "react-router-dom";
 
 const JobSearchForm = ({ onSearch }) => {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
+  let navigate = useNavigate()
   const { userData } = useFirebase();
 
   const jobQueries = [
@@ -34,6 +36,7 @@ const JobSearchForm = ({ onSearch }) => {
     if (query.trim()) {
       dispatch(fetchJobs({ q: query }));
       onSearch && onSearch("search");
+      navigate("/jobs")
     } else {
       const randomQuery = getRandomQuery();
       dispatch(fetchJobs({ q: randomQuery }));
@@ -54,7 +57,7 @@ const JobSearchForm = ({ onSearch }) => {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-[100%] md:w-[95%] p-1 md:p-2 bg-gray-100 text-sm md:text-md lg:text-lg outline-none"
+          className="w-[100%] md:w-[95%] p-2 bg-gray-100 text-sm md:text-md lg:text-lg outline-none"
           placeholder="Find the perfect job"
         />
       </div>
