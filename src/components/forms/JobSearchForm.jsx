@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { IoMdSearch } from "react-icons/io";
@@ -28,14 +26,14 @@ const JobSearchForm = ({ onSearch }) => {
     return jobQueries[randomIndex];
   };
 
-     useEffect(() => {
-     const initialQuery = userData?.role || getRandomQuery();
-     dispatch(fetchJobs({ q: initialQuery }));
-   }, [dispatch, userData]);
+  useEffect(() => {
+    const initialQuery = userData?.role || getRandomQuery();
+    dispatch(fetchJobs({ q: initialQuery }));
+  }, [dispatch, userData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let query =`${query1} ${query2}`
+    let query = `${query1} ${query2}`;
     if (query.trim()) {
       // If search query is provided, dispatch fetchJobs with the query
       dispatch(fetchJobs({ q: query }));
@@ -43,7 +41,7 @@ const JobSearchForm = ({ onSearch }) => {
       navigate("/");
     } else {
       // If search query is empty, generate a random query and dispatch fetchJobs
-      const randomQuery =userData?.role || getRandomQuery();
+      const randomQuery = userData?.role || getRandomQuery();
       dispatch(fetchJobs({ q: randomQuery }));
       onSearch && onSearch("forYou");
     }
@@ -68,7 +66,7 @@ const JobSearchForm = ({ onSearch }) => {
       </div>
       <div className="w-[30%] flex items-center justify-evenly bg-gray-100 rounded-r-full">
         <div className="px-2">
-        <GrLocation   className="text-2xl text-gray-500" />
+          <GrLocation className="text-2xl text-gray-500" />
         </div>
         <input
           type="text"
@@ -84,12 +82,10 @@ const JobSearchForm = ({ onSearch }) => {
       >
         Search
       </button> */}
-            <button
+      <button
         type="submit"
         className=" bg-green-400 rounded-r-full text-white font-semibold hover:bg-green-500 hover:font-bold"
-      >
- 
-      </button>
+      ></button>
     </form>
   );
 };

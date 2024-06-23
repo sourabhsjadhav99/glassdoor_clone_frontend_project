@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // Get the API key from environment variables using Vite
-const apiKey = import.meta.env.VITE_APP_SERPAPI_KEY || "fa6f8d0ca5338ac8d1a49218a1a2569631bbe2ef7dc85561a8383619c07e8b84"
+const apiKey =import.meta.env.VITE_APP_SERPAPI_KEY || "f10e11f2a06cc5ecdddb0f8afc8c137583ea69b26041ed61dce0ef7cf1b9e74f"
 
 
 // Create an asynchronous thunk to fetch jobs data from an API
@@ -15,8 +15,15 @@ export const fetchJobs = createAsyncThunk(
                 params: {
                     api_key: apiKey,
                     engine: 'google_jobs',
-                    google_domain: 'google.co.in',
-                    q
+                    // google_domain: 'google.co.in',
+                    q,
+
+                    google_domain: "google.com",
+                    gl: "us",
+                    hl: "en",
+                    nfpr: "1",
+                    no_cache: "true",
+                    device: "desktop"
                 }
             });
             return response.data.jobs_results;

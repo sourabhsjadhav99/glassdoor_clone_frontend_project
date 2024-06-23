@@ -62,7 +62,7 @@ function SavedJobCard({ job }) {
       }`}
       onClick={handleCardClick}
     >
-      <div className="flex flex-col justify-between  gap-1">
+      <div className="flex flex-col justify-between  w-[80%] gap-1">
         <div className="flex gap-2 items-center text-sm ">
           <p className="w-[40%] truncate whitespace-nowrap overflow-hidden">
             {" "}

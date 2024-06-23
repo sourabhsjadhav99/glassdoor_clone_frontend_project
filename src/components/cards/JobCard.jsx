@@ -71,9 +71,9 @@ function JobCard({ job }) {
       }`}
       onClick={handleCardClick}
     >
-      <div className="flex flex-col justify-between  gap-1">
+      <div className="flex flex-col justify-between  gap-1 w-[80%]">
         <div className="flex gap-2 items-center text-sm ">
-          <p className="w-[40%] truncate whitespace-nowrap overflow-hidden">
+          <p className="w-[60%] truncate whitespace-nowrap overflow-hidden">
             {" "}
             {company_name}
           </p>
@@ -84,7 +84,7 @@ function JobCard({ job }) {
             </span>
           </p>
         </div>
-        <p className="text-lg font-semibold w-[80%] truncate whitespace-nowrap overflow-hidden">
+        <p className="text-lg font-semibold w-[80%] truncate whitespace-nowrap overflow-hidden ">
           {title}
         </p>
         <p className="text-xs">{location}</p>
