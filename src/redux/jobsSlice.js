@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // Get the API key from environment variables using Vite
-const apiKey = import.meta.env.VITE_APP_SERPAPI_KEY
+const apiKey = import.meta.env.VITE_APP_SERPAPI_KEY || "fa6f8d0ca5338ac8d1a49218a1a2569631bbe2ef7dc85561a8383619c07e8b84"
 
 
 // Create an asynchronous thunk to fetch jobs data from an API
