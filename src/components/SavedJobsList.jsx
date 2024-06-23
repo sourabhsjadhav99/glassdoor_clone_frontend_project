@@ -25,11 +25,18 @@ const SavedJobList = () => {
   return (
     <div className="bg-white">
       {appliedError && <p>Error: {appliedError}</p>}
-      {!appliedLoading ? <div className="job-list">
-        {data ? data?.map((job, index) => (
-          <SavedJobCard key={job.job_id} job={job} />
-        )):<div className='text-xl'>Sorry! results not found</div>}
-      </div>:<p>Loading jobs...</p>}
+
+      {data.length > 0 && <div className="job-list">
+        {data.length > 0 ? (
+          data?.map((job, index) => (
+            <SavedJobCard key={job?.job_id} job={job} />
+          ))
+        ) : (
+          <div className="text-xl">Sorry! results not found</div>
+        )}
+      </div>}
+
+     
     </div>
   );
 };

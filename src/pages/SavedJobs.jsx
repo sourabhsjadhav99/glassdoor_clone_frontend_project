@@ -14,10 +14,10 @@ function SavedJobs() {
 
   const dispatch = useDispatch();
 
-    // Get userData and loading state from useFirebase hook
+  // Get userData and loading state from useFirebase hook
   const { userData, loading } = useFirebase();
 
- // Destructure userData safely by providing default values for savedJobs
+  // Destructure userData safely by providing default values for savedJobs
   const { savedJobs = [] } = userData || {};
 
   useEffect(() => {
@@ -40,15 +40,15 @@ function SavedJobs() {
                 >
                   <SavedJobList />
                 </div>
-                <div
+               {savedJobs?.length > 0 &&  <div
                   className={`w-[100%] md:w-[60%] border rounded md:h-[167vh] overflow-hidden ${
                     isCardClicked ? "block" : "hidden"
                   } md:block`}
                 >
                   <div className="job-details-container">
-                    {savedJobs?.length > 0 && <SavedJobDetailsCard />}
+                    <SavedJobDetailsCard />
                   </div>
-                </div>
+                </div>}
               </div>
             </div>
           ) : (
@@ -58,8 +58,12 @@ function SavedJobs() {
                   <Img src={savejob} className={"w-[300px] h-[200px]"} />{" "}
                 </div>
                 <div className="flex flex-col items-center gap-2">
-                  <h3 className="text-xl">You haven't applied any jobs</h3>
-                  <p>Apply jobs and come back here to review.</p>
+            
+                  <h3 className="text-xl">You haven't saved any jobs</h3>
+                  <p>
+                    Save jobs by clicking the heart on a job you like. Come back
+                    here to review them and apply to the best jobs for you.
+                  </p>
                 </div>
               </div>
             </div>

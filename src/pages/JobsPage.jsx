@@ -43,15 +43,13 @@ function JobsPage() {
             >
               <JobList />
             </div>
-            <div
+            {jobs?.length > 0 &&<div
               className={`w-[100%] md:w-[60%] border rounded md:h-[167vh] overflow-hidden ${
                 isCardClicked ? "block" : "hidden"
               } md:block`}
             >
-              <div className="job-details-container">
-                {jobs?.length > 0 && <JobDetailsCard />}
-              </div>
-            </div>
+              <div className="job-details-container"><JobDetailsCard /></div>
+            </div>}
           </div>
         </div>
       ) : (

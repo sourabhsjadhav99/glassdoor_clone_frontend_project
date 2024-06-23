@@ -229,7 +229,7 @@ function Header() {
             <IoClose />
           </button>
           <div className="w-full">
-            <div className="p-5 w-full lg:hidden flex">
+            <div className="p-1 py-5 w-full lg:hidden flex">
               <JobSearchForm />
             </div>
           </div>

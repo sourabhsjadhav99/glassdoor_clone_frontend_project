@@ -30,7 +30,7 @@ function ProtectedRoute({ children }) {
 // Main App component
 function App() {
   return (
-    <>
+    <div className="bg-white min-h-[100vh]">
       <Header />
       <Routes>
         <Route path="/" element={<JobsPage />} />
@@ -80,7 +80,7 @@ function App() {
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
-    </>
+    </div>
   );
 }
 

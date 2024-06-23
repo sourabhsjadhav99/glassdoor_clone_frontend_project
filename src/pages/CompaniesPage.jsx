@@ -1,10 +1,34 @@
 import React from "react";
 import companyImg from "../assets/companies.webp";
 import Img from "../components/Img";
+import { useEffect, useState } from "react";
+import JobSearch from "../components/JobSearch";
+import JobList from "../components/JobsList";
 
+import JobDetailsCard from "../components/cards/JobDetailsCard";
+import { useDispatch, useSelector } from "react-redux";
+import { selectJob, setIsCardClicked } from "../redux/jobDetailsSlice";
+import SkeletonLoader from "../components/skeletons/Skeleton";
+import CompanySearchForm from "../components/forms/CompanySearchForm";
+import CompanyList from "../components/CompanyList";
 function CompaniesPage() {
+  // Get state values from the Redux store
+  const isCardClicked = useSelector((state) => state.jobDetails.isCardClicked);
+  const jobs = useSelector((state) => state.jobs?.data);
+  const loading = useSelector((state) => state.jobs.loading);
+
+  // Initialize dispatch
+  const dispatch = useDispatch();
+
+  // useEffect to handle side effects: select the first job by default and ensure the job details card is displayed
+  useEffect(() => {
+    if (jobs.length > 0) {
+      dispatch(selectJob(jobs[0])); // Select the first job by default
+      dispatch(setIsCardClicked(true)); // Ensure the job details card is displayed
+    }
+  }, [dispatch, jobs]);
   return (
-    <div className="w-full">
+    <div className="w-full bg-white">
       {/* Header Section with Image and Information */}
       <div className="w-full bg-green-50 flex justify-center py-10">
         <div className="w-full xl:w-[70%] lg:[85%] flex flex-col lg:flex-row justify-between items-center gap-2">
@@ -50,20 +74,33 @@ function CompaniesPage() {
       </div>
 
       {/* Search Section */}
-      <div className="w-full flex flex-col   lg:flex-row justify-center items-center bg-white p-10 border-b-2 gap-2">
-        <p>Have an employer in mind?</p>
-        <div className="min-w-[30%] flex gap-2">
-          <div className="w-full">
-            <input
-              type="text"
-              placeholder="Search a Company"
-              className="border rounded p-2 text-lg w-full"
-            />
+      <div className="w-full flex flex-col ">
+        <div
+          className={`flex flex-col md:flex-row border-b pt-5 gap-2 items-center justify-center`}
+        >
+          <p>Have an employer in mind?</p>
+          <div className="w-[100%] md:w-[40%] ">
+            <CompanySearchForm />
           </div>
-          <button className="p-2 bg-blue-600 text-white rounded font-semibold">
-            Search
-          </button>
         </div>
+        {!loading ? (
+          <div className="flex  justify-center p-2 lg:p-5 ">
+            <div className="w-[100%] lg:w-[95%] xl:w-[90%] flex flex-col md:flex-row justify-center gap-10 ">
+              <div className={`w-[100%] md:w-[40%]`}>
+                <CompanyList />
+              </div>
+              {jobs?.length > 0 &&<div
+                className={`w-[100%] md:w-[60%] border rounded md:h-[167vh] overflow-hidden `}
+              >
+                <div className="job-details-container">
+                  <JobDetailsCard />
+                </div>
+              </div>}
+            </div>
+          </div>
+        ) : (
+          <SkeletonLoader />
+        )}
       </div>
     </div>
   );
