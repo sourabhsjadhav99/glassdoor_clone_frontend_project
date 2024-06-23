@@ -66,7 +66,7 @@ Used Github for for version control of application
 
 1. Clone the repository: `https://github.com/sourabhsjadhav99/glassdoor_clone_frontend_project.git`
 2. Install dependencies: `npm install`
-3. Start the development server: `npm ron dev`
+3. Start the development server: `npm run dev`
 4. Open the browser and visit `http://localhost:5173` to view the application.
 
 ## Deployment

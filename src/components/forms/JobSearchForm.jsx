@@ -29,7 +29,7 @@ const JobSearchForm = ({ onSearch }) => {
   useEffect(() => {
     const initialQuery = userData?.role || getRandomQuery();
     dispatch(fetchJobs({ q: initialQuery }));
-  }, [dispatch, userData]);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();

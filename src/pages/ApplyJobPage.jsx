@@ -59,7 +59,6 @@ function ApplyJobPage() {
       timer: 1500,
     });
 
-    navigate("/");
   };
 
   return (
@@ -67,12 +66,23 @@ function ApplyJobPage() {
       <div className="w-[100%] md:w-[40%] ">
         <PersonalInfo />
         {userData ? (
-          <button
-            className={`w-[100%] border mt-5 rounded text-white font-semibold bg-green-400 hover:bg-green-700 hover:font-bold p-2 `}
-            onClick={handleApplyJob}
-          >
-            Apply Now
-          </button>
+          <div>
+            {isJobApplied(job_id) ? (
+              <button
+                disabled
+                className={`w-[100%] border mt-5 disabled:cursor-not-allowed bg-green-800 text-white font-semibold p-2 rounded  }`}
+              >
+                <span>Applied</span>
+              </button>
+            ) : (
+              <button
+              onClick={handleApplyJob}
+              className={`w-[100%] border mt-5 rounded text-white font-semibold bg-green-400 hover:bg-green-700 hover:font-bold p-2 `}
+              >
+                  Apply Now
+              </button>
+            )}
+          </div>
         ) : (
           <button
             className="underline"
