@@ -2,7 +2,7 @@
 
 # Glassdoor Clone Application
 
-This Glassdoor Job Clone Application is a React.js and Redux-based platform allowing users to explore, save, and apply for jobs. The architecture employs Redux for state management, integrating Firebase for authentication, database operations, and storage. Tailwind CSS is utilized for styling, ensuring responsiveness and utility-first design principles. The application facilitates user interactions, managing saved and applied jobs efficiently. Components like job listings, detailed job views, and user profiles are structured for seamless navigation. Testing encompasses Jest and React Testing Library for unit and integration testing. The project structure follows a modular approach with components, pages, Redux logic, utilities, and main entry points clearly organized. Deployed on Netlify with environment variables provided. Overall, it's a comprehensive solution for job seekers offering an intuitive user experience and robust functionality.
+This Glassdoor Job Clone Application is a React.js and Redux-based platform allowing users to explore, save, and apply for jobs. The architecture employs Redux for state management, integrating Firebase for authentication, database operations, and storage. Tailwind CSS is utilized for styling, ensuring responsiveness and utility-first design principles. The application facilitates user interactions, managing saved and applied jobs efficiently. Components like job listings, detailed job views, and user profiles are structured for seamless navigation. Testing encompasses Jest and React Testing Library for unit and integration testing. The project structure follows a modular approach with components, pages, Redux logic, utilities, and main entry points clearly organized. Deployed on Render.com with environment variables provided. Overall, it's a comprehensive solution for job seekers offering an intuitive user experience and robust functionality.
 
 ## Features
 
@@ -71,7 +71,7 @@ Used Github for for version control of application
 
 ## Deployment
 
-This application deployed to Netlify Hosting. Ensure to set up environment variables for Firebase configuration and API keys before deployment.
+This application deployed on Render.com . Ensure to set up environment variables for Firebase configuration and API keys before deployment.
 
 ## Contributors
 
