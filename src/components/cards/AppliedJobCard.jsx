@@ -2,26 +2,21 @@ import React, { useState } from "react";
 import { FaRegBookmark, FaStar } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { selectJob, setIsCardClicked } from "../../redux/jobDetailsSlice";
 import { useFirebase } from "../../FirebaseProvider";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Img from "../Img";
+import { fetchJobDetails, setIsCardClicked } from "../../redux/jobDetailSlice";
+import CardSkeleton from "../skeletons/CardSkeleton";
 function AppliedJobCard({ job }) {
    // Destructuring job object
-  const {
-    title,
-    company_name,
-    location,
-    description,
-    detected_extensions,
-    job_id,
-  } = job;
+   const { title, postDate, location, company, id } = job;
   const dispatch = useDispatch();
   const selectedJob = useSelector((state) => state.jobDetails.selectedJob);
   let navigate = useNavigate();
 
    // Firebase hooks for user data and actions
-  const { updateSavedJobs, userData, isLoggedIn } = useFirebase();
+  const { updateSavedJobs, userData, isLoggedIn,loading } = useFirebase();
   const { appliedJobs = [] } = userData || {};
 
 
@@ -37,19 +32,19 @@ function AppliedJobCard({ job }) {
 
     // Handle click event on the job card
   const handleCardClick = () => {
-    dispatch(selectJob(job));
+    dispatch(fetchJobDetails(id));
     dispatch(setIsCardClicked(true));
   };
 
-  const isApplied = (job_id) => {
-    return appliedJobs?.some((job) => job.job_id === job_id);
+  const isApplied = (id) => {
+    return appliedJobs?.some((job) => job.id === id);
   };
 
   const handleRemoveJob = async (e) => {
     e.stopPropagation();
-    if (isApplied(job_id)) {
+    if (isApplied(id)) {
       // If the job is applied, remove it from applied jobs
-      const updatedJobs = appliedJobs?.filter((job) => job.job_id !== job_id);
+      const updatedJobs = appliedJobs?.filter((job) => job.id !== id);
       await updateSavedJobs({ appliedJobs: updatedJobs });
 
       toast.success("Job removed");
@@ -57,9 +52,10 @@ function AppliedJobCard({ job }) {
   };
 
   return (
-    <div
+    <>
+    {!loading ? <div
       className={`border-b-2 rounded w-full  flex justify-between p-3 mb-2 bg-white hover:bg-gray-200 ${
-        selectedJob && selectedJob?.job_id === job_id
+        selectedJob && selectedJob?.id === id
           ? "border-2 border-gray-300 shadow-md"
           : ""
       }`}
@@ -67,10 +63,15 @@ function AppliedJobCard({ job }) {
     >
       <div className="flex flex-col justify-between  w-[80%]  gap-1">
         <div className="flex gap-2 items-center text-sm ">
-          <p className="w-[40%] truncate whitespace-nowrap overflow-hidden">
-            {" "}
-            {company_name}
-          </p>
+        <div className="flex gap-2">
+            <Img
+              src={company?.logo}
+              className="w-[25px] h-[25px] rounded-full"
+            />
+            <p className="w-[60%] truncate whitespace-nowrap overflow-hidden">
+              {company.name}
+            </p>
+          </div>
           <p className="flex items-center gap-1">
             <span>{getRandomRatings()}</span>{" "}
             <span className="text-xs">
@@ -92,9 +93,10 @@ function AppliedJobCard({ job }) {
         >
           <MdDelete />
         </button>
-        <p className="text-sm">{detected_extensions?.posted_at}</p>
+        <p className="text-sm">{postDate}</p>
       </div>
-    </div>
+    </div>: <CardSkeleton/>}
+    </>
   );
 }
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useFirebase } from "../FirebaseProvider";
+import { useFirebase } from "../../FirebaseProvider";
 
-import AppliedJobCard from "./cards/AppliedJobCard";
+import AppliedJobCard from "../cards/AppliedJobCard";
 
 const SavedJobList = () => {
   const [data, setData] = useState([]);
@@ -28,7 +28,7 @@ const SavedJobList = () => {
       {data.length > 0 && <div className="job-list">
         {data.length > 0 ? (
           data?.map((job, index) => (
-           <AppliedJobCard key={job.job_id} job={job} />
+           <AppliedJobCard key={job.id} job={job} />
           ))
         ) : (
           <div className="text-xl">Sorry! results not found</div>

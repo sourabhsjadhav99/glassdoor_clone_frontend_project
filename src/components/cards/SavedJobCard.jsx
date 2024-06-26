@@ -2,19 +2,14 @@ import React, { useState } from "react";
 import { FaRegBookmark, FaStar } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { selectJob, setIsCardClicked } from "../../redux/jobDetailsSlice";
 import { useFirebase } from "../../FirebaseProvider";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Img from "../Img";
+import { fetchJobDetails, setIsCardClicked } from "../../redux/jobDetailSlice";
+
 function SavedJobCard({ job }) {
-  const {
-    title,
-    company_name,
-    location,
-    description,
-    detected_extensions,
-    job_id,
-  } = job;
+  const { title, postDate, location, company, id } = job;
   const dispatch = useDispatch();
   const selectedJob = useSelector((state) => state.jobDetails.selectedJob);
   let navigate = useNavigate();
@@ -34,20 +29,20 @@ function SavedJobCard({ job }) {
 
   // Handle click on the job card
   const handleCardClick = () => {
-    dispatch(selectJob(job));
+    dispatch(fetchJobDetails(id));
     dispatch(setIsCardClicked(true));
   };
 
   // Check if the job is bookmarked
-  const isJobBookmarked = (job_id) => {
-    return savedJobs.some((job) => job.job_id === job_id);
+  const isJobBookmarked = (id) => {
+    return savedJobs.some((job) => job.id === id);
   };
 
   // Handle click on the bookmark icon
   const handleBookmarkClick = async (e) => {
     e.stopPropagation();
-    if (isJobBookmarked(job_id)) {
-      const updatedJobs = savedJobs.filter((job) => job.job_id !== job_id);
+    if (isJobBookmarked(id)) {
+      const updatedJobs = savedJobs.filter((job) => job.id !== id);
       await updateSavedJobs({ savedJobs: updatedJobs });
       toast.success("Job removed");
     }
@@ -56,7 +51,7 @@ function SavedJobCard({ job }) {
   return (
     <div
       className={`border-b-2 rounded w-full  flex justify-between p-3 mb-2 bg-white hover:bg-gray-200 ${
-        selectedJob && selectedJob.job_id === job_id
+        selectedJob && selectedJob.id === id
           ? "border-2 border-gray-300 shadow-md"
           : ""
       }`}
@@ -64,10 +59,15 @@ function SavedJobCard({ job }) {
     >
       <div className="flex flex-col justify-between  w-[80%] gap-1">
         <div className="flex gap-2 items-center text-sm ">
-          <p className="w-[40%] truncate whitespace-nowrap overflow-hidden">
-            {" "}
-            {company_name}
-          </p>
+        <div className="flex gap-2">
+            <Img
+              src={company.logo}
+              className="w-[25px] h-[25px] rounded-full"
+            />
+            <p className="w-[60%] truncate whitespace-nowrap overflow-hidden">
+              {company.name}
+            </p>
+          </div>
           <p className="flex items-center gap-1">
             <span>{getRandomRatings()}</span>{" "}
             <span className="text-xs">
@@ -89,7 +89,7 @@ function SavedJobCard({ job }) {
         >
           <MdDelete />
         </button>
-        <p className="text-sm">{detected_extensions?.posted_at}</p>
+        <p className="text-sm">{postDate}</p>
       </div>
     </div>
   );

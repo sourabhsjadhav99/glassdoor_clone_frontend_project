@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import JobSearch from "../components/JobSearch";
-import JobList from "../components/JobsList";
-
+import JobList from "../components/lists/JobsList";
 import JobDetailsCard from "../components/cards/JobDetailsCard";
 import { useDispatch, useSelector } from "react-redux";
-import { selectJob, setIsCardClicked } from "../redux/jobDetailsSlice";
+import { fetchJobDetails, setIsCardClicked } from "../redux/jobDetailSlice";
 import SkeletonLoader from "../components/skeletons/Skeleton";
 
 function JobsPage() {
   // Get state values from the Redux store
   const isCardClicked = useSelector((state) => state.jobDetails.isCardClicked);
-  const jobs = useSelector((state) => state.jobs?.data);
-  const loading = useSelector((state) => state.jobs.loading);
+  const jobs = useSelector((state) => state.jobSearch.jobs);
+  const loading = useSelector((state) => state.jobSearch.loading);
+  const error = useSelector((state) => state.jobSearch.error);
+
 
   // Initialize dispatch
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ function JobsPage() {
   // useEffect to handle side effects: select the first job by default and ensure the job details card is displayed
   useEffect(() => {
     if (jobs.length > 0) {
-      dispatch(selectJob(jobs[0])); // Select the first job by default
+      dispatch(fetchJobDetails(jobs[0].id)); // Select the first job by default
       dispatch(setIsCardClicked(true)); // Ensure the job details card is displayed
     }
   }, [dispatch, jobs]);
@@ -33,6 +34,7 @@ function JobsPage() {
       >
         <JobSearch />
       </div>
+      {error && <p className="p-5 text-center">Error: {error}</p>}
       {!loading ? (
         <div className="flex  justify-center p-2 lg:p-5 ">
           <div className="w-[100%] lg:w-[95%] xl:w-[90%] flex flex-col md:flex-row justify-center gap-10 ">
@@ -53,8 +55,8 @@ function JobsPage() {
           </div>
         </div>
       ) : (
-        <SkeletonLoader />
-      )}
+        <SkeletonLoader /> 
+       )}
     </div>
   );
 }

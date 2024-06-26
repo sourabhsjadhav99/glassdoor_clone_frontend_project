@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import JobCard from "./cards/JobCard";
+import JobCard from "../cards/JobCard";
 import { useParams } from "react-router-dom";
-import { useFirebase } from "../FirebaseProvider";
-import SavedJobCard from "./cards/SavedJobCard";
+import { useFirebase } from "../../FirebaseProvider";
+import SavedJobCard from "../cards/SavedJobCard";
 
 const SavedJobList = () => {
   const [data, setData] = useState([]); // State to hold job data
@@ -29,7 +29,7 @@ const SavedJobList = () => {
       {data.length > 0 && <div className="job-list">
         {data.length > 0 ? (
           data?.map((job, index) => (
-            <SavedJobCard key={job?.job_id} job={job} />
+            <SavedJobCard key={job?.id} job={job} />
           ))
         ) : (
           <div className="text-xl">Sorry! results not found</div>

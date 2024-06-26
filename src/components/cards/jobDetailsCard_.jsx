@@ -7,8 +7,9 @@ import { useFirebase } from "../../FirebaseProvider";
 import { GiElectric } from "react-icons/gi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import spinner from "../../assets/spinner.svg"
 import DetailsCardSkeleton from "../skeletons/DetailsCardSkeleton";
-const JobDetailsCard = () => {
+const JobDetailsCard_ = () => {
   const selectedJob = useSelector((state) => state.jobDetails.selectedJob);
   const loading = useSelector((state) => state.jobDetails.loading);
   // const error = useSelector((state) => state.jobDetails.error);
@@ -18,16 +19,8 @@ const JobDetailsCard = () => {
 
   const { updateSavedJobs, userData, isLoggedIn } = useFirebase();
   const { savedJobs = [], appliedJobs = [] } = userData || {};
-  const {
-    company,
-    title,
-    location,
-    description,
-    skills,
-    type,
-    workPlace,
-    id,
-  } = selectedJob || {};
+  const { company, title, location, description, skills, type, workPlace, id } =
+    selectedJob || {};
 
   // Toggle full description visibility
   const toggleDescription = () => {
@@ -35,37 +28,8 @@ const JobDetailsCard = () => {
   };
 
   if (!selectedJob) {
-    return <DetailsCardSkeleton/>
+    return  <p className="p-5 text-lg">Oops! We're having trouble retrieving data from API right now. Please try again later.</p>
   }
-
-  // Check if the job is bookmarked
-  const isJobBookmarked = () => {
-    return savedJobs.some((job) => job.id === id);
-  };
-
-  // Check if the job is already applied
-  const isJobApplied = () => {
-    return appliedJobs.some((job) => job.id === id);
-  };
-
-  // Handle bookmark button click
-  const handleBookmarkClick = async () => {
-    if (isJobBookmarked(id)) {
-      const updatedJobs = savedJobs.filter((job) => job.id !== id);
-      await updateSavedJobs({ savedJobs: updatedJobs });
-      toast.success("Job removed");
-    } else {
-      const newJob = selectedJob;
-      const updatedJobs = [...savedJobs, newJob];
-      await updateSavedJobs({ savedJobs: updatedJobs });
-      toast.success("Job saved");
-    }
-  };
-
-  let handleJobApplyClick = () => {
-    navigate("/applyjob");
-    toast.warning("Update Your Profile Data");
-  };
 
   let handleCardClick = () => {
     dispatch(setIsCardClicked(false));
@@ -73,7 +37,7 @@ const JobDetailsCard = () => {
 
   return (
     <>
-    {! loading ? <div className="p-5 bg-white shadow-md rounded overflow-y-auto h-full scrollbar">
+   {!loading ? <div className="p-5 bg-white shadow-md rounded overflow-y-auto h-full scrollbar">
       <button
         onClick={handleCardClick}
         className="flex items-center bg-gray-100 px-2 rounded text-lg gap-2 hover:bg-gray-200 mb-2 md:hidden"
@@ -90,39 +54,6 @@ const JobDetailsCard = () => {
           <p className="text-sm text-gray-600 mb-4">{location}</p>
           <p className="text-sm text-gray-600 mb-4">Workplace: {workPlace}</p>
           <p className="text-sm text-gray-600 mb-4">Type: {type}</p>
-        </div>
-        <div className="flex gap-5 items-center">
-          <button
-            className={`text-xl bg-gray-100 hover:bg-green-400 hover:rounded-full w-[35px] h-[35px] flex items-center justify-center ${
-              isJobBookmarked(id) ? "bg-green-400 rounded-full text-white" : ""
-            }`}
-            onClick={
-              isLoggedIn ? handleBookmarkClick : () => navigate("/signup")
-            }
-          >
-            <FaRegBookmark />
-          </button>
-
-          {isJobApplied(id) ? (
-            <button
-              disabled
-              className={` disabled:cursor-not-allowed bg-green-800 text-white font-semibold p-2 rounded  }`}
-            >
-              <span>Applied</span>
-            </button>
-          ) : (
-            <button
-              onClick={
-                isLoggedIn ? handleJobApplyClick : () => navigate("/signup")
-              }
-              className={`flex gap-2 items-center text-black bg-green-500 font-semibold p-2 rounded hover:text-white hover:bg-green-800 }`}
-            >
-              <span className="text-lg">
-                <GiElectric />
-              </span>{" "}
-              <span>Easy Apply</span>
-            </button>
-          )}
         </div>
       </div>
       <div className="mb-4">
@@ -171,12 +102,9 @@ const JobDetailsCard = () => {
           </div>
         )}
       </div>
-      <div>
-
-      </div>
-    </div>: <DetailsCardSkeleton/> }
+    </div> : <DetailsCardSkeleton/>}
     </>
   );
 };
 
-export default JobDetailsCard;
+export default JobDetailsCard_;

@@ -1,78 +1,70 @@
-import React, { useState } from "react";
-import { FaRegBookmark, FaStar } from "react-icons/fa6";
-import { MdDelete } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
-import { selectJob, setIsCardClicked } from "../../redux/jobDetailsSlice";
-import { useFirebase } from "../../FirebaseProvider";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import Img from "../Img";
+import spinner from "../../assets/spinner.svg"
 
-function CompanyCard({ job }) {
-  const {
-    title,
-    company_name,
-    location,
-    description,
-    detected_extensions,
-    job_id,
-  } = job;
-  const dispatch = useDispatch();
-  const selectedJob = useSelector((state) => state.jobDetails.selectedJob);
-  let navigate = useNavigate();
+function CompanyCard() {
+  const [searchPerformed, setSearchPerformed] = useState(false);
+  const companyDetails = useSelector((state) => state.company.details);
+  const loading = useSelector((state) => state.company.loading);
+  const companyError = useSelector((state) => state.company.error);
 
-  const { updateSavedJobs, userData, isLoggedIn } = useFirebase();
-  const { savedJobs = [] } = userData || {};
+  useEffect(() => {
+    if (companyDetails !== null || companyError) {
+      setSearchPerformed(true);
+    }
+  }, [companyDetails, companyError]);
 
-  // Function to generate random salary for display
-  function getRandomSalary() {
-    return Math.floor(Math.random() * (15 - 4 + 1)) + 4;
+  if (companyError) {
+    return <p>Error: {companyError}</p>;
   }
 
+  if (loading) {
+    return <Img src={spinner}/>
+  }
 
-  // Handle click on the job card
-  const handleCardClick = () => {
-    dispatch(selectJob(job));
-    dispatch(setIsCardClicked(true));
-  };
+  if (searchPerformed && !companyDetails) {
+    return <p>No company details available.</p>;
+  }
 
-  // Check if the job is bookmarked
-  const isJobBookmarked = (job_id) => {
-    return savedJobs.some((job) => job.job_id === job_id);
-  };
-
-  // Handle click on the bookmark icon
-  const handleBookmarkClick = async (e) => {
-    e.stopPropagation();
-    if (isJobBookmarked(job_id)) {
-      const updatedJobs = savedJobs.filter((job) => job.job_id !== job_id);
-      await updateSavedJobs({ savedJobs: updatedJobs });
-      toast.success("Job removed");
-    }
-  };
+  if (!companyDetails) {
+    return null;
+  }
 
   return (
-    <div
-      className={`border-b-2 rounded w-full  flex justify-between p-3 mb-2 bg-white hover:bg-gray-200 ${
-        selectedJob && selectedJob.job_id === job_id
-          ? "border-2 border-gray-300 shadow-md"
-          : ""
-      }`}
-      onClick={handleCardClick}
-    >
-      <div className="flex flex-col justify-between  gap-1">
-        <div className="flex gap-2 items-center text-sm ">
-          <p className=" text-lg font-semibold ">
-            {company_name}
-          </p>
-        </div>
-        <p className="">
-          {title}
-        </p>
-        <p className="text-xs">{location}</p>
-
-        <p className="text-xs">{getRandomSalary()}L (glassdoor estimated) </p>
+    <div className="mt-4 flex flex-col gap-2 border p-5 rounded border-gray-300">
+      <div className="flex items-center gap-2">
+        <Img
+          src={companyDetails?.Images?.logo}
+          alt={`${companyDetails?.name} logo`}
+          className="w-[30px] h-[30px] rounded-full"
+        />
+        <h2 className="text-xl font-bold">{companyDetails?.name}</h2>
       </div>
-     
+      <p>
+        <span className="text-lg font-bold">Description:</span> {companyDetails?.description}
+      </p>
+      <p>
+        <span className="text-lg font-bold">Staff Count:</span> {companyDetails?.staffCount}
+      </p>
+      <p>
+        <span className="text-lg font-bold">Type:</span> {companyDetails?.type}
+      </p>
+      <div>
+        <span className="text-lg font-bold">Industries:</span>
+        {companyDetails?.industries?.map((value, index) => (
+          <p key={index}>{value}</p>
+        ))}
+      </div>
+      <div>
+        <span className="text-lg font-bold">Specialities:</span>
+        {companyDetails?.specialities?.map((value, index) => (
+          <p key={index}>{value}</p>
+        ))}
+      </div>
+      <a href={companyDetails?.website} className="hover:underline text-blue-600">
+        {companyDetails?.website}
+      </a>
     </div>
   );
 }

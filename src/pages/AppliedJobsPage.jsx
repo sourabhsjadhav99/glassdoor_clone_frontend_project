@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import JobSearch from "../components/JobSearch";
-import JobList from "../components/JobsList";
+import JobList from "../components/lists/JobsList";
 
 import JobDetailsCard from "../components/cards/JobDetailsCard";
 import { useDispatch, useSelector } from "react-redux";
-import { selectJob, setIsCardClicked } from "../redux/jobDetailsSlice";
-import AppliedJobList from "../components/AppliedJobList";
+
+import AppliedJobList from "../components/lists/AppliedJobList";
 import { useFirebase } from "../FirebaseProvider";
-import SavedJobDetailsCard from "../components/cards/SavedJobDetailsCard";
 import SkeletonLoader from "../components/skeletons/Skeleton";
 import savejob from "../assets/savejob.jpg";
 import Img from "../components/Img";
+import { fetchJobDetails, setIsCardClicked } from "../redux/jobDetailSlice";
+import JobDetailsCard_ from "../components/cards/jobDetailsCard_";
 
 function AppliedJobsPage() {
   // Retrieve state values from the Redux store
@@ -26,7 +27,7 @@ function AppliedJobsPage() {
   useEffect(() => {
     // Check if there are applied jobs
     if (appliedJobs.length > 0) {
-      dispatch(selectJob(appliedJobs[0])); // Select the first job by default
+      dispatch(fetchJobDetails(appliedJobs[0].id)); // Select the first job by default
       dispatch(setIsCardClicked(true)); // Ensure the job details card is displayed
     }
   }, [dispatch, appliedJobs]);
@@ -51,7 +52,7 @@ function AppliedJobsPage() {
                   } md:block`}
                 >
                   <div className="job-details-container">
-                     <SavedJobDetailsCard />
+                     <JobDetailsCard_/>
                   </div>
                 </div>}
               </div>

@@ -15,18 +15,16 @@ import { useDispatch } from "react-redux";
 import { fetchJobs } from "../../redux/jobsSlice";
 import JobSearch from "../JobSearch";
 import JobSearchForm from "../forms/JobSearchForm";
+import HeaderSearchForm from "../forms/HeaderSearchForm";
 
 function Header() {
   const [isOpenNavLinks, setIsOpenNavLinks] = useState(false);
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [isOpenUser, setIsOpenUser] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
-  const [company, setCompany] = useState("");
-  const [location, setLocation] = useState("");
   const [tooltipId, setTooltipId] = useState(null);
   const [isSignPopupOpen, setIsSignPopupOpen] = useState(false);
-
-   // Destructuring values from useFirebase hook
+  // Destructuring values from useFirebase hook
   let { logOut, isLoggedIn, userEmail } = useFirebase();
 
   // State for search query
@@ -39,19 +37,18 @@ function Header() {
     setTooltipId(id);
   };
 
-    // Find tooltip data based on tooltipId
+  // Find tooltip data based on tooltipId
   let tooldata = navLinks.find((link) => link.id === tooltipId);
 
-   // Toggle modal for sign in/sign up form
+  // Toggle modal for sign in/sign up form
   const handleModal = () => {
     setIsSignPopupOpen(!isSignPopupOpen);
   };
 
-   // Toggle navigation links
+  // Toggle navigation links
   const toggleNavLinks = () => {
     setIsOpenNavLinks(!isOpenNavLinks);
   };
-
 
   // Toggle search form
   const toggleForm = () => {
@@ -59,15 +56,15 @@ function Header() {
     setShowSearch(!showSearch);
   };
 
-    // Toggle user menu
+  // Toggle user menu
   const toggleUser = () => {
     setIsOpenUser(!isOpenUser);
   };
 
-   // Ref for user menu
+  // Ref for user menu
   const userRef = useRef(null);
 
-    // Ref for search bar
+  // Ref for search bar
   const searchBarRef = useRef(null);
 
   // Handle form submission for job search
@@ -75,15 +72,15 @@ function Header() {
     e.preventDefault();
     if (query.trim()) {
       dispatch(fetchJobs({ q: query }));
-      setShowSearch(!showSearch)
-      toggleForm()
+      setShowSearch(!showSearch);
+      toggleForm();
     }
-  }
+  };
 
-   // Handle click outside user menu to close it
+  // Handle click outside user menu to close it
   useClickOutside(userRef, () => setIsOpenUser(false));
 
-   // Handle click outside search bar to close search form
+  // Handle click outside search bar to close search form
   useClickOutside(searchBarRef, () => setShowSearch(false));
 
   return (
@@ -153,8 +150,13 @@ function Header() {
             ref={searchBarRef}
           >
             {showSearch ? (
-              <div className="w-[100%] hidden lg:flex">            
-                  <JobSearchForm />        
+              <div className="w-[100%] hidden lg:flex">
+                <HeaderSearchForm
+                  setShowSearch={setShowSearch}
+                  showSearch={showSearch}
+                  toggleForm={toggleForm}
+                  isMobile={false}
+                />
               </div>
             ) : null}
             <div className="flex justify-center gap-1    items-center">
@@ -230,7 +232,12 @@ function Header() {
           </button>
           <div className="w-full">
             <div className="p-1 py-5 w-full lg:hidden flex">
-              <JobSearchForm />
+              <HeaderSearchForm
+                setShowSearch={setShowSearch}
+                showSearch={showSearch}
+                toggleForm={toggleForm}
+                isMobile={true}
+              />
             </div>
           </div>
         </div>
@@ -249,43 +256,43 @@ function Header() {
               <IoClose />
             </span>
           </button>
-            <div className="w-full">
-              <div className="w-[100%] text-xl flex items-center gap-2 px-5">
-                <FaRegCircleUser />
-                <small className="truncate whitespace-nowrap overflow-hidden font-semibold">
-                  {userEmail}
-                </small>
-              </div>
-              <div className="p-4 w-full flex flex-col items-start gap-1">
-                <button
-                  className="p-2 w-full text-left hover:bg-gray-100"
-                  onClick={() => {
-                    navigate("/profile");
-                    toggleUser();
-                  }}
-                >
-                  User Details
-                </button>
-                <button
-                  className="p-2 w-full text-left hover:bg-gray-100"
-                  onClick={() => {
-                    navigate("/savedjobs");
-                    toggleUser();
-                  }}
-                >
-                  Saved Jobs
-                </button>
-                <button
-                  className="p-2 w-full text-left hover:bg-gray-100"
-                  onClick={() => {
-                    navigate("/appliedjobs");
-                    toggleUser();
-                  }}
-                >
-                  Applied Jobs
-                </button>
-              </div>
+          <div className="w-full">
+            <div className="w-[100%] text-xl flex items-center gap-2 px-5">
+              <FaRegCircleUser />
+              <small className="truncate whitespace-nowrap overflow-hidden font-semibold">
+                {userEmail}
+              </small>
             </div>
+            <div className="p-4 w-full flex flex-col items-start gap-1">
+              <button
+                className="p-2 w-full text-left hover:bg-gray-100"
+                onClick={() => {
+                  navigate("/profile");
+                  toggleUser();
+                }}
+              >
+                User Details
+              </button>
+              <button
+                className="p-2 w-full text-left hover:bg-gray-100"
+                onClick={() => {
+                  navigate("/savedjobs");
+                  toggleUser();
+                }}
+              >
+                Saved Jobs
+              </button>
+              <button
+                className="p-2 w-full text-left hover:bg-gray-100"
+                onClick={() => {
+                  navigate("/appliedjobs");
+                  toggleUser();
+                }}
+              >
+                Applied Jobs
+              </button>
+            </div>
+          </div>
           {isLoggedIn ? (
             <button
               className="w-[140px] font-semibold text-white bg-black hover:bg-red-600  rounded p-2 flex gap-2 justify-center items-center "

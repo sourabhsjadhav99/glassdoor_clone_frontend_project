@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectJob, setIsCardClicked } from "../redux/jobDetailsSlice";
-import SavedJobList from "../components/SavedJobsList";
+import SavedJobList from "../components/lists/SavedJobsList";
 import { useFirebase } from "../FirebaseProvider";
-import SavedJobDetailsCard from "../components/cards/SavedJobDetailsCard";
 import SkeletonLoader from "../components/skeletons/Skeleton";
 import Img from "../components/Img";
 import savejob from "../assets/savejob.jpg";
+import JobDetailsCard from "../components/cards/JobDetailsCard";
+import { fetchJobDetails, setIsCardClicked } from "../redux/jobDetailSlice";
+import JobDetailsCard_ from "../components/cards/jobDetailsCard_";
 
 function SavedJobs() {
   // Use Redux useSelector to get the state of isCardClicked from the jobDetails slice
@@ -20,12 +21,14 @@ function SavedJobs() {
   // Destructure userData safely by providing default values for savedJobs
   const { savedJobs = [] } = userData || {};
 
+  // first 
   useEffect(() => {
     if (savedJobs?.length > 0) {
-      dispatch(selectJob(savedJobs[0])); // Select the first job by default
+      dispatch(fetchJobDetails(savedJobs[0].id)); // Select the first job by default
       dispatch(setIsCardClicked(true)); // Ensure the job details card is displayed
     }
   }, [dispatch, savedJobs]);
+
   return (
     <div className="w-[100%] bg-white md:min-h-[90vh] ">
       {!loading ? (
@@ -40,13 +43,13 @@ function SavedJobs() {
                 >
                   <SavedJobList />
                 </div>
-               {savedJobs?.length > 0 &&  <div
+               {savedJobs?.length > 0 && isCardClicked &&  <div
                   className={`w-[100%] md:w-[60%] border rounded md:h-[167vh] overflow-hidden ${
                     isCardClicked ? "block" : "hidden"
                   } md:block`}
                 >
                   <div className="job-details-container">
-                    <SavedJobDetailsCard />
+                    <JobDetailsCard_ />
                   </div>
                 </div>}
               </div>
