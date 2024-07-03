@@ -48,7 +48,7 @@ let footerCountries = [
 ];
 
 
-let apikey = 'abc8404994msh42acd033ee38d42p1b5df4jsn919912b18f41' || '61b3249e85mshfa49ae12488d239p17b29cjsndbcfc53a7d51' ||  'b736a22104msh0bb7d9300b32db5p1cf470jsn61a8507cda76'
+let apikey = 'fd877318b9msh8120bd7fc51652bp14fe27jsn8a1c746f0569' || 'c7a14b2688mshf3c2e3666520120p10f646jsn66d1339e51c2' || '6eeb92ffd0msha588698713332bfp138079jsn90316bbd05f6'
 let apiHost = "linkedin-data-api.p.rapidapi.com"
 export {
     navLinks,

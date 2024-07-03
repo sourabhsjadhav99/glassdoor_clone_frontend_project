@@ -26,7 +26,7 @@ const JobSearchForm = ({ onSearch }) => {
   const locationError = useSelector((state) => state.locationSearch.error);
 
   const locationRef = useRef(null);
-  useClickOutside(locationRef, () => setIsOpenLocation(false));
+  useClickOutside(locationRef, () => setShowLocationList(false));
 
   useEffect(() => {
     if (debouncedLocation) {

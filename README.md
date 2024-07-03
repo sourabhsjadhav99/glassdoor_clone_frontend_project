@@ -76,3 +76,12 @@ This application deployed on Render.com . Ensure to set up environment variables
 ## Contributors
 
 - Sourabh Jadhav
+
+![Login or register new user](/screenshots/signin.png)
+![Create User's profile](/screenshots/createprofile.png)
+![Search job according to location](/screenshots/searchlist.png)
+![Save or bookmark job](/screenshots/savedjobs.png)
+![Apply for any job](/screenshots/applyforjob.png)
+![Search companies](/screenshots/searchcompany.png)
+![List of saved jobs](/screenshots/savedjobs.png)
+![List of applied jobs](/screenshots/appliedjobs.png)
